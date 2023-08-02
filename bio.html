@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sch1z0.net</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+  width:100%;
+  height:100%;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+#main {
+    position: absolute; 
+    width:100%; 
+    height:100%; 
+    z-index:20; 
+    mix-blend-mode: difference;
+}
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Questrial;
+    color: white;
+
+    user-select: none;
+
+    flex-direction: column;
+}
+
+.zerolink {
+   color: white; 
+   text-decoration: underline;
+}
+
+
+.zerolink:hover{
+   font-weight: bolder;
+}
+
+#cover {
+   display: flex;
+   flex-flow: column;
+   width: 90%;
+   max-width: 95%;
+   height: 90%;
+}
+
+#title {
+    font-size: 460%;
+    text-align: center;
+    margin: auto;
+}
+
+#bio {
+    height: 70%;
+    margin: auto;
+    display: flex;
+    border: solid 1px white;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(100,100,100);
+    overflow-y: scroll;
+}
+
+#info {
+   font-size: 100%;
+   margin: 10px;
+   padding: 0;
+   text-align: justify;
+}
+
+#info > p{
+   margin: 0;
+   padding: 5px;
+}
+
+#profile {
+   float: left;
+   max-width: 220px;
+   max-height: 220px;
+   border-radius: 10px;
+   margin: 5px;
+}
+
+#profile2 {
+   float: right;
+   max-width: 220px;
+   max-height: 220px;
+   border-radius: 10px;
+   margin: 5px;
+}
+
+@media (max-width:600px)  {
+ #profile {
+    max-width: 100px;  
+    max-height: 100px; 
+  } 
+ #profile2 {
+    max-width: 100px;  
+    max-height: 100px; 
+  } 
+}
+
+#comment {
+    text-align:justify;
+}
+
+
+.corner {
+  font-family: Questrial;
+  z-index: 10;
+  position: absolute;
+  top: -20px;
+  right: -70px;
+  width: 200px;
+  height: 100px;
+  transform: rotate(45deg);
+  background: floralwhite;
+  padding-top: 70px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#imprint {
+    position: absolute;
+    bottom: 10px;
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="/scripts/noise.js"></script>
+<script src="/scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+
+    <div class="corner"> work in progress </div>
+    <div id="main">
+       <div id="container">
+
+          <div id="cover">
+            <div id="title"> bio </div>
+            <div id="bio">
+                <div id="info">
+                    <img id="profile" src="images/bio/before.png"/> 
+                    This is me, in my best years being on vacation in Poland and before I got diagnosed with paranoid schizophrenia. Back then I was in my mid-20ies, the last time feeling as a normal social human being.
+                    <hr/>
+                    Born in Beckum, a small town in Northrhine Westphalia in Germany, I grew up as a polish-german child in the 90ies with two little sisters, a gameboy and a playstation.
+                    I was a quite shy child, so my friends where quite manageable.
+                    Soon, in my teeny time, the first computer arrived, but I also made new friends and spent a great time playing soccer with friends or skating. Our family got a dog, which really helped me through bad years of school. I had a great time with many people when I finished school, and an even greater time when I moved to Koblenz for my study in computer science.
+                    <hr/>
+                    Unfortunately, strange things started to happen, and they only got more after my bachelor thesis. Feeling stalked by strangers, even being harassed by them in most banal situations, to a point, where they even shouted at me at night. Some people obviously didn't like me there. It was like psychoterror. After spending a lot of great time in that beautiful city between rhine and the mosel, the city finally became a nightmare. The situation was so stressing that I was forced to move back to my hometown. 
+                    <hr/>
+                    Back in Beckum, I was just explaining to my family that I didn't feel very great so I had to stay for a while. But I didn't really talk to anyone about what happened in the last few years because I always ignored the bad stuff and focussed on good moments. But these good moments were gone as soon as I moved back, although I keep them in my memory until today. In Beckum, the strangers couldn't really reach me anymore, so there was less happening outside. But that didn't really give me my inner peace back. Under stress, my mind became more and more focussed on all the bad stuff happening in the world, without having a break. Isolated from all the people I used to know, I began to draw the images (of this art project), it felt like a sudden relevation to me. 
+                    <hr/>
+                    Month after month I drew different symbols on paper, and they fed my already sick mind to an extent that I spilled out even more of those symbols. I began to live in my own world, strange thoughts appeared that every normal human being would filter out instantly. But I let all of these strange thoughts happen, I watched them like a movie, until the movie became so intense that I started to feel the strangers that once threatened me outside, finally threatening me in my own mind. First they appeared as thoughts that were not my own, I didn't identify with them. Then, when everything got really mad, I started to hear their voices in my ear, I even felt them doing stuff in my body. 
+                    <hr/>
+                    <img id="profile2" src="images/bio/after.png"/> 
+                    From there on, it did only take a few days and I was completely sleep deprived, going completely insane. I felt like these strangers wanted to get me out of my house. And they kind of did in the end. One morning, I couldn't breath anymore. It felt different than a panic attack. Something in my body felt being blocked so I got no oxygen anymore, I was cramped, and in that short moment of not being able to control my body anymore I decided: Ok, I don't want to die by suffocating. I made my way out of my room to the balkony, and climbed over the grille. I sat down and was ready to fall, if the cramps got back again. And they did. The last thing I saw was the sunrise. Then I lost my consciousness and fell from the balkony. Luckily, it was only the first floor, only a few meters. But it was enough to break my hips. 
+                    <hr/>
+                    I woke up in the intensive care unit, still much paranoid about my whole situation. I begged the nurse to not inject stuff into 
+                    infusion tube, and I thought my whole family was dead, glad he gave me the tranquilizers anyway. I kept sleeping more, and the next time I woke up, I wasn't panicking anymore. I spent a few weeks in that hospital without moving out of bed, and finally, when I got a wheelchair and the doctors told me, that I could go back home, I was very happy for the first time after all this misery. But the luck didn't last long, on the same day I had to move to the psychatry because I got confined. There, I had to stay for a few months to get my medication. But even after medication, there was one guy in that station that herassed me again. Not just a random herassment. I knew it directly that he was one of these people who have been stalking me. So no, my paranoid situation didn't get really better, but at least the heavy symptoms of schizophrenia aren't there anymore.
+                    <hr/>
+                    I am back home now for a few years (2023), and I am doing better. But I am pretty much socially destroyed, and of course mentally. But I am trying to at least keep my mental health upright, because that's what you need to have a proper life. But since then, I avoid people as much as possible, I don't go out very often, it's like living in a prison. You live, but you don't really... Even after prison you have the chance to get your normal life back, but I am not very optimistic when it comes to my illness. The paranoia is so deeply rooted in my mind that I don't know how to live a fully carefree life again.
+                    At least I am trying to keep myself active, that's why I decided to create this page and share my art and story with you. Of course that is only possible because I am already doing better, at the time of my psychosis I was very secretive, but I keep opening up a little bit more as time passes. 
+               </div>
+            </div>
+          </div>
+          
+           <div id="imprint">
+            © 2023 • Sebastian Prusak • <a class="zerolink" href="../imprint.html">imprint</a>
+            • <a class="zerolink" href="../index.html">main page</a>
+           </div>
+
+       </div>
+
+    </div>
+
+</body>
+
+
+</body>
+</html>
+

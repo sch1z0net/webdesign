@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sch1z0.net</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="../images/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#at {
+    transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -o-transform: scale(1.0);
+}
+
+.pol{
+    transform: scale(0.192);
+    -ms-transform: scale(0.192);
+    -webkit-transform: scale(0.192);
+    -moz-transform: scale(0.192);
+    -o-transform: scale(0.192);
+}
+
+.rot{
+    transform-origin: center;
+}
+
+.letter{
+    font-family: "Quicksand";
+    user-select: none;
+}
+
+.whitebg {
+  user-select: none;
+  background-color: #FFFFFF;
+  position: absolute;
+  display: inline-block;
+  mix-blend-mode: difference;
+  width: 100%;
+  height:100%;
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="../scripts/noise.js"></script>
+<script src="../scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+    <div id="main" style="position: absolute; width:100%; height:100vh; z-index:1; mix-blend-mode: difference;">
+       <div id="container">
+       </div>
+    </div>
+
+
+<script type = "text/javascript">
+
+   $at = $("#container").svg({id: "at", x: 0, y: 0, viewBox: "0 0 400 400"}).resize();
+
+   $triA = $at.svg({id: "triangleA"});
+   $rotA = $triA.g({class: "pol"}).g({class: "rot"});
+   $rotA.polygon({style: "fill:white", points: "200 130, 300 300, 100 300"});
+   $rotA.text({x: 168, y: 260}).css("font-size","100px");
+
+   $triB = $at.svg({id: "triangleB"});
+   $rotB = $triB.g({class: "pol"}).g({class: "rot"});
+   $rotB.polygon({style: "fill:white", points: "200 300, 300 130, 100 130"});
+
+   $triAs = $triA.dups(28);
+   $triBs = $triB.dups(21);
+
+   $("#triangleA1").find("text").html("a");
+   $("#triangleA2").find("text").html("b");
+   $("#triangleA3").find("text").html("c");
+   $("#triangleA4").find("text").html("d");
+   $("#triangleA5").find("text").html("e");
+   $("#triangleA6").find("text").html("f");
+   $("#triangleA7").find("text").html("g");
+   $("#triangleA8").find("text").html("h");
+   $("#triangleA9").find("text").html("i");
+   $("#triangleA10").find("text").html("j");
+   $("#triangleA11").find("text").html("k");
+   $("#triangleA12").find("text").html("l");
+   $("#triangleA13").find("text").html("m");
+   $("#triangleA14").find("text").html("n");
+   $("#triangleA15").find("text").html("o");
+   $("#triangleA16").find("text").html("p");
+   $("#triangleA17").find("text").html("q");
+   $("#triangleA18").find("text").html("r");
+   $("#triangleA19").find("text").html("s");
+   $("#triangleA20").find("text").html("t");
+   $("#triangleA21").find("text").html("u");
+   $("#triangleA22").find("text").html("▲");   
+   $("#triangleA23").find("text").html("v");
+   $("#triangleA24").find("text").html("w");
+   $("#triangleA25").find("text").html("x");
+   $("#triangleA26").find("text").html("y");
+   $("#triangleA27").find("text").html("z");
+   $("#triangleA28").find("text").html("▲");
+
+   $triA.remove();
+   $triB.remove();
+
+   var count = 0;
+   var row = 0;
+   var cx = 180-21;
+   var cy = 20;
+   $triAs.forEach(function(el, index){
+      $triAs[index].attr("x", cx-(21*row)+42*(count)).attr("y", cy+(36*row));
+      if(count >= row){ row++; count = 0; }else{ count++; }
+   })
+
+   count = 0;
+   row = 0;
+   $triBs.forEach(function(el, index){
+   $triBs[index].attr("x", cx-(21*row)+42*(count)).attr("y", cy+36+(36*row));
+      if(count >= row){ row++; count = 0; }else{ count++; }
+   })
+
+let t = 0;
+let r = 0;
+let ph = [];
+
+for(var i = 0; i < $at.children().length; i++){
+   ph[i] = Math.random()*100;
+}
+
+function animate() {
+   t += 0.1;
+   if(t >= 1000000){ t = 0; }
+   for(var i = 0; i < $at.children().length; i++){
+     r = svib(0.5, t+ph[i], 2.2, 0);
+     $(".rot:eq("+i+")").r(r).end();
+   }
+   requestAnimationFrame(animate);
+}
+
+animate();
+
+
+</script>
+
+
+</body>
+</html>
+

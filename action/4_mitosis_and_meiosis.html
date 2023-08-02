@@ -1,0 +1,410 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Canvas experiment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#image {
+    transform: scale(1.0);
+    mix-blend-mode: difference;
+}
+
+.letter{
+    font-family: "Questrial";
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+.box{
+    user-select: none;    
+}
+
+.whitebg {
+  user-select: none;
+  background-color: #FFFFFF;
+  position: absolute;
+  display: inline-block;
+  mix-blend-mode: difference;
+  width: 100%;
+  height:100%;
+}
+
+
+.move1{ 
+    -webkit-transform:   translateX(78px);
+    -moz-transform:   translateX(78px);
+    -ms-transform:   translateX(78px);
+    -o-transform:   translateX(78px);
+    transform:   translateX(78px);
+    transition: transform 2s;
+}
+
+.move2{ 
+    -webkit-transform:   translateX(10px) translateY(68px);
+    -moz-transform:   translateX(10px) translateY(68px);
+    -ms-transform:   translateX(10px) translateY(68px);
+    -o-transform:   translateX(10px) translateY(68px);
+    transform:   translateX(10px) translateY(68px);
+    transition: transform 2s;
+}
+
+.move3{ 
+    -webkit-transform:   translateX(110px) translateY(68px);
+    -moz-transform:   translateX(110px) translateY(68px);
+    -ms-transform:   translateX(110px) translateY(68px);
+    -o-transform:   translateX(110px) translateY(68px);
+    transform:   translateX(110px) translateY(68px);
+    transition: transform 2s;
+}
+
+.moveup1{ 
+    -webkit-transform:  translateY(-100px);
+    -moz-transform:  translateY(-100px);
+    -ms-transform:  translateY(-100px);
+    -o-transform:  translateY(-100px);
+    transform:  translateY(-100px);
+    transition: transform 2s;
+}
+
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+}
+
+</style>
+
+<style>
+
+.hidden{
+  visibility: hidden;
+}
+
+#slidecontainer {
+  width: 15%; /* Width of the outside container */
+  position: absolute;
+  z-index: 10;
+  right: 0px;
+  display: inline-block;
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #ffffff; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.9; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #1a1a1a; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #1a1a1a; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+</style>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="noise.js"></script>
+<script src="tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+    <div id="main" style="position: absolute; width:100%; height:100vh; z-index:1; mix-blend-mode: difference;">
+       <div id="container">
+       </div>
+    </div>
+
+<script type = "text/javascript">
+
+var d_chrom = "m 71.397897,45.696017 c -1.836742,0.0074 -3.74161,0.378601 -5.754648,1.326253 -5.76973,3.351968 -0.172053,24.134018 0,36.596723 1.944645,6.140661 4.89887,10.970371 8.269051,14.365561 -3.370181,3.395196 -6.324406,8.224906 -8.269051,14.365556 -0.172053,12.4627 -5.76973,52.44805 0,55.80002 4.601227,2.16605 8.637965,1.32218 12.585148,0 5.201418,-3.05713 0,-44.04277 0,-56.46247 0.02762,-3.64392 4.389235,-5.58089 7.866056,-7.86604 3.476822,2.28515 7.837977,4.22212 7.865604,7.86604 0,12.4197 -5.201419,53.40534 0,56.46247 3.947182,1.32218 7.983913,2.16605 12.585153,0 5.76972,-3.35197 0.17204,-43.33732 0,-55.80002 -1.94465,-6.14065 -4.89887,-10.97036 -8.269054,-14.365556 3.370184,-3.39519 6.324404,-8.2249 8.269054,-14.365561 0.17204,-12.462705 5.76972,-33.244755 0,-36.596723 -4.60124,-2.166058 -8.637971,-1.322186 -12.585153,0 -5.201419,3.057128 0,24.839487 0,37.259171 -0.02762,3.643932 -4.388782,5.580902 -7.865604,7.866057 -3.476821,-2.285155 -7.838427,-4.222125 -7.866056,-7.866057 0,-12.419684 5.201418,-34.202043 0,-37.259171 -2.22029,-0.74373 -4.468976,-1.335781 -6.8305,-1.326253 z";
+
+var d_chrom_h = "m 71.397897,45.696017 c -1.836742,0.0074 -3.74161,0.378601 -5.754648,1.326253 -5.76973,3.351968 -0.172053,24.134018 0,36.596723 1.944645,6.140661 4.89887,10.970371 8.269051,14.365561 -3.370181,3.395196 -6.324406,8.224906 -8.269051,14.365556 -0.172053,12.4627 -5.76973,52.44805 0,55.80002 4.601227,2.16605 8.637965,1.32218 12.585148,0 5.201418,-3.05713 0,-44.04277 0,-56.46247 0.02762,-3.64392 4.389235,-5.58089 7.866056,-7.86604 3.476822,2.28515 7.837977,4.22212 7.865604 z";
+
+  var t = 0;
+  
+  var whiggle = 0;
+  var whiggle1 = 0;
+  var whiggle2 = 0;
+  var whiggle3 = 0;
+  var whiggle4 = 0;
+  var rhiggle = 0;
+  var swhiggle = 0;
+  var repx = 0;
+
+$(document).ready(function(){
+
+  $image = $("#container").svg({id: "image", x: 0, y: 0, viewBox: "0 0 400 400"}).resize();
+
+  $top = $image.g({id: "top"}).svg({viewBox: "0 0 400 400"});
+  $top.text({class: "letter", id: "let_v", x: 140, y: 200, fill: "white"}).css("font-size","30px").html("v").hide();
+  $top.text({class: "letter", id: "let_w", x: 165, y: 160, fill: "white"}).css("font-size","30px").html("w").hide();
+  $top.text({class: "letter", id: "let_x", x: 200, y: 120, fill: "white"}).css("font-size","30px").html("x").hide();
+  $top.text({class: "letter", id: "let_y", x: 235, y: 160, fill: "white"}).css("font-size","30px").html("y").hide();
+  $top.text({class: "letter", id: "let_z", x: 260, y: 200, fill: "white"}).css("font-size","30px").html("z").hide();
+  $top.text({class: "letter", id: "let_big_z", x: 160, y: 200, fill: "white"}).css("font-size","180px").css("mix-blend-mode", "difference").html("z");
+  $top.circle({class: "letter", id: "let_dot", cx: 150, cy: 116, r: 10, fill: "white"}).css("mix-blend-mode", "difference").hide();
+
+  $sep1 = $image.g({id: "sep1"}).svg({viewBox: "0 0 400 400"});
+  $sep1.rect({id: "sep_rect1", x: 0, y: 210, width: "100%", height: 16, rx: "2", fill: "white"}).hide();
+  $sep1.text({class: "letter", id: "let_x1", x: 40, y: 234, fill: "white"}).css("font-size","30px").css("mix-blend-mode", "difference").html("x").hide();
+  $sep1.text({class: "letter", id: "let_y1", x:115, y: 234, fill: "white"}).css("font-size","30px").css("mix-blend-mode", "difference").html("y").hide();
+  $sep1.text({class: "letter", id: "let_w1", x:190, y: 234, fill: "white"}).css("font-size","30px").css("mix-blend-mode", "difference").html("w").hide();
+  $sep1.text({class: "letter", id: "let_v1", x:265, y: 234, fill: "white"}).css("font-size","30px").css("mix-blend-mode", "difference").html("v").hide();
+  $sep1.text({class: "letter", id: "let_z1", x:340, y: 234, fill: "white"}).css("font-size","30px").css("mix-blend-mode", "difference").html("z").hide();
+
+  $mid = $image.g({id: "mid"}).svg({x: 0, y: -25, viewBox: "0 0 400 400"});
+  
+  $cell1 = $mid.g({id: "cell1"}).hide();
+  $cell1.circle({id: "cellc1", cx: 44, cy: 210, r: 32, fill: "white"});
+  $cell1.text({id: "text1", x: 32, y: 260, fill: "white"}).css("font-size","6px").html("Prophase");
+  $cell1.svg({id: "cell1m", x: 20, y: 180}).path({id: "cell1m1", fill: "black", d: d_chrom });  
+
+  $cell2 = $mid.g({id: "cell2"}).hide();
+  $cell2.circle({id: "cell2c", cx: 124, cy: 200, r: 32, fill: "white"});
+  $cell2.text({id: "text2", x: 108, y: 260, fill: "white"}).css("font-size","6px").html("Metaphase");
+  $cell2.svg({id: "cell2m", x: 100, y: 170}).path({id: "cell2m1", fill: "black", d: d_chrom }); 
+
+  $cell3 = $mid.g({id: "cell3"}).hide();
+  $cell3.circle({id: "cell3c", cx: 204, cy: 210, r: 32, fill: "white"});
+  $cell3.text({id: "text3", x: 188, y: 260, fill: "white"}).css("font-size","6px").html("Anaphase");
+  $cell3.svg({id: "cell3m", x: 180, y: 180}).path({id: "cell3m1", fill: "black", d: d_chrom_h }); 
+
+  $cell3i = $cell3.svg({id: "cell3i", x: 180, y: 180});
+  $cell3i.path({id: "cell3i1", stroke: "black", d: "M 30 28 l 30 50"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell3i.path({id: "cell3i2", stroke: "black", d: "M 22 34 l 30 35"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell3i.path({id: "cell3i3", stroke: "black", d: "M 14 42 l 30 20"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell3i.path({id: "cell3i4", stroke: "black", d: "M 26 14 l -26 -10"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell3i.path({id: "cell3i5", stroke: "black", d: "M 20 20 l -30 -20"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell3i.path({id: "cell3i6", stroke: "black", d: "M 12 28 l -30 -35"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell3.circle({id: "cell3d1", cx: 180, cy: 185, r: 8, fill: "black"}); 
+  $cell3.circle({id: "cell3d2", cx: 225, cy: 235, r: 8, fill: "black"}); 
+
+  $cell4 = $mid.g({id: "cell4"}).hide();
+  $cell4.circle({id: "cell4c1", cx: 264, cy: 190, r: 24, fill: "white"});
+  $cell4.circle({id: "cell4c2", cx: 284, cy: 210, r: 24, fill: "white"});
+  $cell4.text({id: "text4", x: 266, y: 260, fill: "white"}).css("font-size","6px").html("Telophase");
+  $cell4.svg({id: "cell4m", x: 250, y: 170}).path({id: "cell4m1", fill: "black", d: d_chrom_h }); 
+
+  $cell4i = $cell4.svg({id: "cell4i", x: 250, y: 170});
+  $cell4i.path({id: "cell4i1", stroke: "black", d: "M 30 28 l 30 50"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell4i.path({id: "cell4i2", stroke: "black", d: "M 22 34 l 30 35"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell4i.path({id: "cell4i3", stroke: "black", d: "M 14 42 l 30 20"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell4i.path({id: "cell4i4", stroke: "black", d: "M 26 14 l -26 -10"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell4i.path({id: "cell4i5", stroke: "black", d: "M 20 20 l -30 -20"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell4i.path({id: "cell4i6", stroke: "black", d: "M 12 28 l -30 -35"}).css("stroke-dasharray","1,1").css("stroke-width","1"); 
+  $cell4.circle({id: "cell4d1", cx: 245, cy: 175, r: 6, fill: "black"}); 
+  $cell4.circle({id: "cell4d2", cx: 298, cy: 232, r: 6, fill: "black"}); 
+
+  $cell5 = $mid.g({id: "cell5"}).hide();
+  $cell5.circle({id: "cell5c1", cx: 340, cy: 200, r: 15, fill: "white"});
+  $cell5.circle({id: "cell5c2", cx: 368, cy: 225, r: 15, fill: "white"});
+  $cell5.rect({id: "cell5z1", x: 320, y: 165, width: 70, height: 4, rx: 0, fill: "white"});
+  $cell5.polygon({id: "cell5z2", fill: "white", points: "396 165, 390 165, 314 254, 320 254"});
+  $cell5.rect({id: "cell5z3", x: 320, y: 250, width: 70, height: 4, rx: 0, fill: "white"});
+  $cell5.text({id: "text5", x: 340, y: 260, fill: "white"}).css("font-size","6px").html("Cytokinesis");
+  $cell5.svg({id: "cell5m", x: 320, y: 170}).path({id: "cell5m1", fill: "black", d: d_chrom });  
+
+  $sep2 = $image.g({id: "sep2"}).svg({y: 10, viewBox: "0 0 400 400"});
+  $sep2.rect({id: "sep_rect2", x: 0, y: 230, width: "100%", height: 16, rx: "2", fill: "white"}).hide();
+
+  $bottom = $image.g({id: "bottom"}).hide().svg({y: 10, viewBox: "0 0 400 400"});
+  $bottom.text({class: "letter", id: "let_z_b1", x: 24, y: 350, fill: "white"}).css("font-size","180px").html("z");
+  $bottom.polygon({id: "let_diag1", fill: "white", points: "90 350, 110 350, 180 260, 160 260"});
+  $bottom.text({class: "letter", id: "let_z_b2", x: 160, y: 350, fill: "white"}).css("font-size","180px").html("z");
+  $bottom.polygon({id: "let_diag2", fill: "white", points: "220 350, 240 350, 310 260, 290 260"});
+  $bottom.text({class: "letter", id: "let_z_b3", x: 286, y: 350, fill: "white"}).css("font-size","180px").html("z");
+  
+  $bottom.circle({id: "let_dot_b", cx: 14, cy: 266, r : 10, fill: "white"});
+  $dots = $bottom.g({id: "let_dots"});
+  $dots.circle({id: "let_dots1", cx: 370, cy: 350, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots2", cx: 376, cy: 350, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots3", cx: 382, cy: 350, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots4", cx: 388, cy: 350, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots5", cx: 394, cy: 350, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots6", cx: 373, cy: 345, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots7", cx: 379, cy: 345, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots8", cx: 385, cy: 345, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots9", cx: 391, cy: 345, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots10", cx: 376, cy: 340, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots11", cx: 382, cy: 340, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots12", cx: 388, cy: 340, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots13", cx: 373, cy: 355, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots14", cx: 379, cy: 355, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots15", cx: 385, cy: 355, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots16", cx: 391, cy: 355, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots17", cx: 376, cy: 360, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots18", cx: 382, cy: 360, r : 3, fill: "white"});
+  $dots.circle({id: "let_dots19", cx: 388, cy: 360, r : 3, fill: "white"});
+
+  $("#let_big_z").click(function(){  
+    $("#let_v").show(2000);  
+    $("#let_w").show(3000);  
+    $("#let_x").show(4000);  
+    $("#let_y").show(5000);  
+    $("#let_z").show(6000);  
+    $("#let_dot").show(2000); 
+    $("#sep_rect1").fadeIn(2000); 
+    $("#bottom").show(4000); 
+  });
+
+  var i = 0;
+  $("#let_dot").click(function(){ 
+    if(i == 0){      $("#let_dot").addClass("move1"); $("#let_x1").show(1000); i++;}
+    else if(i == 1){ $("#let_dot").addClass("move2"); $("#let_y1").show(1000); $("#let_w1").show(2000); i++;}
+    else if(i == 2){ $("#let_dot").addClass("move3"); $("#let_v1").show(1000); $("#let_z1").show(2000); i++;}
+    else if(i == 3){ 
+      $("#let_dot").hide(); 
+      $("#top").addClass("moveup1"); 
+      $("#sep1").addClass("moveup1");
+      $("#cell1").delay(1000).show(2000);
+      $("#cell2").delay(1000).show(3000);
+      $("#cell3").delay(1000).show(4000);
+      $("#cell4").delay(1000).show(5000);
+      $("#cell5").delay(1000).show(6000);
+      $("#sep_rect2").fadeIn(2000);
+      i++;
+    }
+  });
+
+  $c1ms = $("#cell1m1").dups(7, false);
+  $c2ms = $("#cell2m1").dups(7, false);
+  $c3ms = $("#cell3m1").dups(6, false);
+  $c4ms = $("#cell4m1").dups(6, false);
+  $c5ms = $("#cell5m1").dups(14, false);
+
+
+  const multitransform1 = new Function( 
+    multitransform("$c1ms",
+     [["tX", [ 22, 12, 22, 32, 12, 22, 32], ["whiggle1", "whiggle2", "whiggle3", "whiggle4"]],
+      ["tY", [ 14, 16, 18, 20,  6,  8, 10], ["whiggle4", "whiggle3", "whiggle2", "whiggle1"]],
+      [ "r", [ 10, 50, 80,120, 20, 40,100], ["rwhiggle*3", "rwhiggle*2"]], 
+      [ "s", [ 0.1 ]                      , ["0"]]])
+  );
+
+  const multitransform2 = new Function( 
+    multitransform("$c2ms",
+     [["tX", [  8, 12, 16, 20, 24, 28, 32], ["whiggle1/2", "whiggle2/2", "whiggle3/2", "whiggle4/2"]],
+      ["tY", [ 30, 26, 22, 18, 14, 10,  6], ["whiggle4/2", "whiggle3/2", "whiggle2/2", "whiggle1/2"]],
+      [ "r", [ 30, 32]                    , ["rwhiggle"]], 
+      [ "s", [ 0.1 ]                      , ["0"]]])
+  );
+
+  const multitransform3 = new Function( 
+    multitransform("$c3ms",
+     [["tX", [ 12, 20, 28, 14, 20, 28]    , ["whiggle1/8"]],
+      ["tY", [ 30, 22, 14, 40, 32, 24]    , ["whiggle4/8"]],
+      [ "r", [ 30, 30, 30,210,210,210]    , ["rwhiggle"]], 
+      [ "s", [ 0.1 ]                      , ["0"]]])
+  );
+
+  const multitransform4 = new Function( 
+    multitransform("$c4ms",
+     [["tX", [ 12, 20, 28, 14, 20, 28]    , ["whiggle1/8"]],
+      ["tY", [ 30, 22, 14, 40, 32, 24]    , ["whiggle4/8"]],
+      [ "r", [ 30, 30, 30,210,210,210]    , ["rwhiggle"]], 
+      [ "s", [ 0.1 ]                      , ["0"]]])
+  );
+
+  const multitransform5 = new Function( 
+    multitransform("$c5ms",
+     [["tX", [ 22, 12, 22, 32, 12, 22, 32, 48, 38, 48, 58, 38, 48, 58], ["whiggle1/2", "whiggle2/2", "whiggle3/2", "whiggle4/2"]],
+      ["tY", [ 30, 22, 14, 40, 32, 24, 32, 46, 48, 50, 52, 54, 40, 44], ["whiggle4/2", "whiggle3/2", "whiggle2/2", "whiggle1/2"]],
+      [ "r", [ 10, 50, 80,120, 20, 40,100, 10, 50, 80,120, 20, 40,100], ["rwhiggle*3", "rwhiggle*2"]], 
+      [ "s", [ 0.06 ]                     , ["0"]]])
+  );
+
+  function animate() {
+    t += 0.1;
+    if(t >= 1000000){ t = 0; }
+    if(t <= -1000000){ t = 0; }
+
+    whiggle  = uvib(0.5, t,    2, 0);
+    whiggle1 = uvib(0.6, t,    5, 0); 
+    whiggle2 = uvib(0.4, t,    8, 0); 
+    whiggle3 = uvib(0.2, t,   10, 0); 
+    whiggle4 = uvib(0.1, t,   12, 0); 
+    rwhiggle = svib(0.5, t,    2, 0); 
+    swhiggle = uvib(0.5, t, 0.01, 1); 
+
+    $("#cell1c").tX(-whiggle).end();
+    $("#cell2c").tY(whiggle).end();
+    $("#cell3c").tX(-whiggle).tY(whiggle).end();
+    $("#cell4c1").tX(-whiggle).tY(whiggle).end();
+    $("#cell4c2").tX(whiggle).tY(whiggle).end();
+    $("#cell5c1").tX(whiggle).end();
+    $("#cell5c2").tX(-whiggle).end();
+
+    multitransform1();
+    multitransform2();
+    multitransform3();
+    multitransform4();
+    multitransform5();
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+});
+
+</script>
+
+
+</body>
+</html>
+

@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sch1z0.net</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+  width:100%;
+  height:100%;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+#main {
+    position: absolute; 
+    width:100%; 
+    height:100%; 
+    z-index:20; 
+    mix-blend-mode: difference;
+}
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Questrial;
+    color: white;
+
+    user-select: none;
+
+    flex-direction: column;
+}
+
+#menu {
+    display: block;
+    font-size: 140%;
+    width: 420px;
+    text-align: center;
+    max-width: 95%;
+}
+
+.menu_element {
+    display: inline-block;
+    padding: 3%;
+    text-decoration: underline;
+    box-sizing: border-box;
+}
+
+
+.zerolink {
+   color: white; 
+   text-decoration: underline;
+}
+
+
+.zerolink:hover{
+   font-weight: bolder;
+}
+
+#donate-button {
+    /*display: block;
+    font-size: 160%;
+    width: 40%;
+    text-align: center;*/
+    margin-top: -5px;
+}
+
+#cover {
+   display: flex;
+   flex-flow: column;
+   width: 400px;
+   max-width: 95%;
+}
+
+#by {
+    display: flex;
+    border: solid 1px white;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(100,100,100);
+}
+
+#info {
+   font-size: 100%;
+   margin: 10px;
+   padding: 0;
+}
+
+#info > p{
+   margin: 0;
+   padding: 5px;
+}
+
+
+#title {
+    font-size: 460%;
+    text-align: center;
+}
+
+#profile {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+#donate_box {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px white;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(100,100,100);
+    width: 400px;
+    max-width: 95%;
+    font-size: 80%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#comment {
+    text-align:justify;
+}
+
+
+.corner {
+  font-family: Questrial;
+  z-index: 10;
+  position: absolute;
+  top: -20px;
+  right: -70px;
+  width: 200px;
+  height: 100px;
+  transform: rotate(45deg);
+  background: floralwhite;
+  padding-top: 70px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#imprint {
+    position: absolute;
+    bottom: 10px;
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="/scripts/noise.js"></script>
+<script src="/scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+
+    <div class="corner"> work in progress </div>
+    <div id="main">
+       <div id="container">
+
+          <div id="cover">
+            <div id="title"> sch1z0.net </div>
+            <div id="by">
+                <img id="profile" src="images/bio/profile.png"/> 
+                <div id="info">
+                  <p>name: Sebastian Prusak</p>
+                  <p>born: 1991</p>
+                  <p><a class="zerolink" href="https://en.wikipedia.org/wiki/Schizophrenia">diag.: ICD-10-GM-2023: F20.0</a></p>
+               </div>
+            </div>
+          </div>
+          <div id="menu">
+            <div class="menu_element"><a class="zerolink" href="../intro/intro.html">intro</a></div>
+            <div class="menu_element"><a class="zerolink" href="../net.html" >art</a></div>
+            <div class="menu_element"><a class="zerolink" href="../download/sch1z0.zip" download>zip</a></div>
+            <div class="menu_element"><a class="zerolink" href="../bio.html">bio</a></div>
+            <div class="menu_element"><a class="zerolink" onclick="alert('I am still writing on my book. Will hopefully finish the first version in 2024.')">book</a></div>
+          </div>
+
+        <div id="donate_box">
+          <div id="comment">
+             Sebastian is the creator of this page and of this art project.
+             He suffers from paranoid schizophrenia. He would describe it as  schizophrenia plus paranoia. In his view, the paranoia started first and was real and happening from 'the outside', when after years
+             of threats additional typical symptoms of schizophrenia made him even more sick, happening from 'the inside', leading to months of hospitalization. He is under medication now and doing much better, at least, the schizophrenia has become much weaker, but the paranoia still remains like a scar in his memory. More about his person in the BIO. You can support him and his work with a small donation.
+          </div>
+        </div>
+          
+          <div id="donate-button-container">
+            <div id="donate-button"></div>
+               <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+               <script>
+                 PayPal.Donation.Button({
+                  env:'production',
+                  hosted_button_id:'TZW3JS7UQ5KTG',
+                  image: {
+                  src:'https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif',
+                  alt:'Donate with PayPal button',
+                  title:'PayPal - The safer, easier way to pay online!',
+                  }
+                 }).render('#donate-button');
+               </script>
+            </div>
+
+           <div id="imprint">
+            © 2023 • Sebastian Prusak • <a class="zerolink" href="../imprint.html">imprint</a>
+           </div>
+
+       </div>
+
+    </div>
+
+</body>
+
+
+</body>
+</html>
+

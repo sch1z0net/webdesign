@@ -1,0 +1,391 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sch1z0.net</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+#container {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#at {
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -o-transform: scale(1.5);
+}
+
+.pol{
+    transform: scale(0.192);
+    -ms-transform: scale(0.192);
+    -webkit-transform: scale(0.192);
+    -moz-transform: scale(0.192);
+    -o-transform: scale(0.192);
+}
+
+.rot{
+    transform-origin: center;
+}
+
+.letter{
+    font-family: "Questrial";
+    user-select: none;
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.whitebg {
+  user-select: none;
+  background-color: #FFFFFF;
+  position: absolute;
+  display: inline-block;
+  mix-blend-mode: difference;
+  width: 100%;
+  height:100%;
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="../scripts/noise.js"></script>
+<script src="../scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+    <div id="main" style="position: absolute; width:100%; height:100vh; z-index:1; mix-blend-mode: difference;">
+       <div id="container">
+       </div>
+    </div>
+
+
+<script type = "text/javascript">
+
+   $at = $("#container").svg({id: "at", x: 0, y: 0, viewBox: "0 0 800 800"}).resize();
+
+   $at.circle({class: "circle", id: "circle_bg", cx: 400, cy: 400, r: 180, fill: "white"});
+   $at2 = $at.svg({}).css("transform-origin", "center").css("mix-blend-mode", "multiply");
+
+   $triA = $at2.svg({id: "triangleA"});
+   $rotA = $triA.g({});
+   $rotA.s(0.2).end();
+   $rotA.polygon({style: "fill:black", points: "200 130, 300 300, 100 300"});
+
+   $triB = $at2.svg({id: "triangleB"});
+   $rotB = $triB.g({});
+   $rotB.s(0.2).end();
+   $rotB.polygon({style: "fill:black", points: "200 300, 300 130, 100 130"});
+
+   $triAs = $triA.dups(120);
+   $triBs = $triB.dups(120);
+
+   $triA.remove();
+   $triB.remove();
+
+   var limit = 10;
+   var count = 0;
+   var row = 0;
+   var cx = 200-21-10;
+   var cy = 200-18-5;
+   $triAs.forEach(function(el, index){
+      $triAs[index].attr("x", cx+42*(count)-(row%2)*21).attr("y", cy+(36*row));
+      if(count >= limit){ count = 0; row++; }else{ count++; }
+   })
+
+   count = 0;
+   row = 0;
+   $triBs.forEach(function(el, index){
+      $triBs[index].attr("x", cx+42*(count)+(row%2)*21-21).attr("y", cy+(36*row));
+      if(count >= limit){ count = 0; row++; }else{ count++; }
+   })
+
+   $at.circle({class: "circle", id: "circle_bg2", cx: 400, cy: 400, r: 182, fill: "white"}).css("mix-blend-mode", "difference");
+   
+   var active_tris = new Set();
+
+   function anim(){
+        $at2.hide(); 
+        $(".let_text").hide();
+        $("#circle_bg2").fadeOut(3000);
+        $("#circle_bg").delay(5000).fadeOut(3000);
+        //$("#atc").delay(5000).fadeIn(1000);
+
+        var del = 0;
+        $("#atc").children().each(function(){
+            del+=50;
+            $(this).delay(5000+del).fadeIn(500);
+        });
+
+        $("#triangleM").delay(5000).fadeIn(500);
+   }
+
+   $.fn.triA = function(id, color, x, y) { 
+      $triAf = this.svg({id: id, class: "letter"}).css("opacity",0);
+      $rotAf = $triAf.g({});
+      $rotAf.s(0.2).end();
+      $rotAf.polygon({style: "fill:"+color, points: "200 130, 300 300, 100 300"});
+      $text = $rotAf.text({x: 168, y: 260}).attr("class", "let_text");
+      $text.css("font-size","100px").attr("fill", "white").css("mix-blend-mode", "difference");
+      $triAf.attr("x", x).attr("y", y);
+
+      $triAf.hover(function(){ 
+         $("#"+id).css("opacity",1); 
+         active_tris.add(id);
+         if(active_tris.size >= 45){ 
+            anim();
+         }
+      });
+   }
+
+   $.fn.triB = function(id, color, x, y) { 
+      $triAf = this.svg({id: id, class: "letter"}).css("opacity",0);
+      $rotAf = $triAf.g({});
+      $rotAf.s(0.2).end();
+      $rotAf.polygon({style: "fill:"+color, points: "200 300, 300 130, 100 130"});
+      $triAf.attr("x", x).attr("y", y);
+
+      $triAf.hover(function(){ 
+         $("#"+id).css("opacity",1); 
+         active_tris.add(id);
+         if(active_tris.size >= 45){ 
+            anim();
+         }
+      });
+   }
+
+   $.fn.triAc = function(id, color, x, y) { 
+      $triAf = this.svg({id: id, class: "letter"}).hide();
+      $rotAf = $triAf.g({});
+      $rotAf.s(0.2).end();
+      $rotAf.polygon({style: "fill:"+color, points: "200 130, 300 300, 100 300"});
+      $text = $rotAf.text({x: 168, y: 260});
+      $text.css("font-size","60px").attr("fill", "white").css("mix-blend-mode", "difference");
+      $triAf.attr("x", x).attr("y", y);
+      return $triAf;
+   }
+
+   $.fn.triBc = function(id, color, x, y) { 
+      $triAf = this.svg({id: id, class: "letter"}).hide();
+      $rotAf = $triAf.g({});
+      $rotAf.s(0.2).end();
+      $rotAf.polygon({style: "fill:"+color, points: "200 300, 300 130, 100 130"});
+      $text = $rotAf.text({x: 170, y: 250});
+      $text.css("font-size","60px").attr("fill", "white").css("mix-blend-mode", "difference");
+      $triAf.attr("x", x).attr("y", y);
+      return $triAf;
+   }
+
+   var trix = 400-42-21;
+   var triAy = 200+50-36;
+   var triBy = 200+50;
+   var color1 = "lightgrey";
+   var color2 = "darkgrey";
+   var color3 = "#404040";
+   $at.triA("triangleAf1", color1, trix-21*0, triAy+36*1);
+   $at.triB("triangleBf1", color1, trix-21*0, triBy+36*1);
+   $at.triA("triangleAf2", color1, trix-21*1, triAy+36*2);
+   $at.triB("triangleBf2", color1, trix-21*1, triBy+36*2);
+   $at.triA("triangleAf3", color1, trix-21*2, triAy+36*3);
+   $at.triB("triangleBf3", color1, trix-21*2, triBy+36*3);
+   $at.triA("triangleAf4", color1, trix-21*3, triAy+36*4);
+   $at.triB("triangleBf4", color1, trix-21*3, triBy+36*4);
+   $at.triA("triangleAf5", color1, trix-21*4, triAy+36*5);
+   $at.triB("triangleBf5", color1, trix-21*4, triBy+36*5);
+   $at.triA("triangleAf6", color1, trix+21*1, triAy+36*2);
+   $at.triB("triangleBf6", color1, trix+21*1, triBy+36*2);
+   $at.triA("triangleAf7", color1, trix+21*2, triAy+36*3);
+   $at.triB("triangleBf7", color1, trix+21*2, triBy+36*3);
+   $at.triA("triangleAf8", color1, trix+21*3, triAy+36*4);
+   
+   $at.triA("triangleAg1", color2, trix+21*2, triBy+36*0);
+   $at.triB("triangleBg1", color2, trix+21*1, triBy+36*0);
+   $at.triA("triangleAg2", color2, trix+21*3, triBy+36*1);
+   $at.triB("triangleBg2", color2, trix+21*2, triBy+36*1);
+   $at.triA("triangleAg3", color2, trix+21*4, triBy+36*2);
+   $at.triB("triangleBg3", color2, trix+21*3, triBy+36*2);
+   $at.triA("triangleAg4", color2, trix+21*5, triBy+36*3);
+   $at.triB("triangleBg4", color2, trix+21*4, triBy+36*3);
+   $at.triA("triangleAg5", color2, trix+21*6, triBy+36*4);
+   $at.triB("triangleBg5", color2, trix+21*5, triBy+36*4);
+   $at.triA("triangleAg6", color2, trix+21*4, triBy+36*4);
+   $at.triB("triangleBg6", color2, trix+21*3, triBy+36*4);
+   $at.triA("triangleAg7", color2, trix+21*2, triBy+36*4);
+   $at.triB("triangleBg7", color2, trix+21*1, triBy+36*4);
+   $at.triA("triangleAg8", color2, trix+21*0, triBy+36*4);
+
+   $at.triA("triangleAh1", color3, trix+21*5, triBy+36*5);
+   $at.triB("triangleBh1", color3, trix+21*6, triBy+36*5);
+   $at.triA("triangleAh2", color3, trix+21*3, triBy+36*5);
+   $at.triB("triangleBh2", color3, trix+21*4, triBy+36*5);
+   $at.triA("triangleAh3", color3, trix+21*1, triBy+36*5);
+   $at.triB("triangleBh3", color3, trix+21*2, triBy+36*5);
+   $at.triA("triangleAh4", color3, trix-21*1, triBy+36*5);
+   $at.triB("triangleBh4", color3, trix-21*0, triBy+36*5);
+   $at.triA("triangleAh5", color3, trix-21*3, triBy+36*5);
+   $at.triB("triangleBh5", color3, trix-21*2, triBy+36*5);
+   $at.triA("triangleAh6", color3, trix-21*2, triBy+36*4);
+   $at.triB("triangleBh6", color3, trix-21*1, triBy+36*4);
+   $at.triA("triangleAh7", color3, trix-21*1, triBy+36*3);
+   $at.triB("triangleBh7", color3, trix+21*0, triBy+36*3);
+   $at.triA("triangleAh8", color3, trix+21*0, triBy+36*2);
+
+   $("#triangleAf1").find("text").html("b");
+   $("#triangleAf2").find("text").html("d");
+   $("#triangleAf3").find("text").html("g");
+   $("#triangleAf4").find("text").html("k");
+   $("#triangleAf5").find("text").html("p");
+   $("#triangleAf6").find("text").html("e");
+   $("#triangleAf7").find("text").html("i");
+   $("#triangleAf8").find("text").html("n");
+   $("#triangleAg1").find("text").html("c");
+   $("#triangleAg2").find("text").html("f");
+   $("#triangleAg3").find("text").html("j");
+   $("#triangleAg4").find("text").html("o");
+   $("#triangleAg5").find("text").html("u");
+   $("#triangleAg6").find("text").html("t");
+   $("#triangleAg7").find("text").html("s");
+   $("#triangleAg8").find("text").html("r");
+   $("#triangleAh1").find("text").html("z");
+   $("#triangleAh2").find("text").html("y");
+   $("#triangleAh3").find("text").html("x");
+   $("#triangleAh4").find("text").html("w");
+   $("#triangleAh5").find("text").html("v");
+   $("#triangleAh6").find("text").html("q");
+   $("#triangleAh7").find("text").html("l");
+   $("#triangleAh8").find("text").html("h");
+
+   $atc = $at.svg({id: "atc"});
+   $atc.triBc("clock0", "white", trix+21*1, triAy-36*1).find("text").html("0");
+   $atc.triAc("clock1", "white", trix+21*2, triAy-36*1);
+   $atc.triBc("clock2", "white", trix+21*3, triAy-36*1);
+   $atc.triAc("clock3", "white", trix+21*4, triAy-36*1);
+   $atc.triBc("clock4", "white", trix+21*5, triAy-36*1);
+   $atc.triAc("clock5", "white", trix+21*6, triAy-36*1).find("text").html("5");
+
+   $atc.triBc("clock6", "white", trix+21*6, triAy+36*0);
+   $atc.triAc("clock7", "white", trix+21*7, triAy+36*0);
+   $atc.triBc("clock8", "white", trix+21*7, triAy+36*1);
+   $atc.triAc("clock9", "white", trix+21*8, triAy+36*1);
+   $atc.triBc("clock10", "white", trix+21*8, triAy+36*2).find("text").html("10");
+   $atc.triAc("clock11", "white", trix+21*9, triAy+36*2);
+   $atc.triBc("clock12", "white", trix+21*9, triAy+36*3);
+   $atc.triAc("clock13", "white", trix+21*10, triAy+36*3);
+   $atc.triBc("clock14", "white", trix+21*10, triAy+36*4);
+   $atc.triAc("clock15", "white", trix+21*11, triAy+36*4).find("text").html("15");
+
+   $atc.triBc("clock16", "white", trix+21*11, triAy+36*5);
+   $atc.triAc("clock17", "white", trix+21*10, triAy+36*5);
+   $atc.triBc("clock18", "white", trix+21*10, triAy+36*6);
+   $atc.triAc("clock19", "white", trix+21*9, triAy+36*6);
+   $atc.triBc("clock20", "white", trix+21*9, triAy+36*7).find("text").html("20");
+   $atc.triAc("clock21", "white", trix+21*8, triAy+36*7);
+   $atc.triBc("clock22", "white", trix+21*8, triAy+36*8);
+   $atc.triAc("clock23", "white", trix+21*7, triAy+36*8);
+   $atc.triBc("clock24", "white", trix+21*7, triAy+36*9);
+   $atc.triAc("clock25", "white", trix+21*6, triAy+36*9).find("text").html("25");
+
+   $atc.triBc("clock26", "white", trix+21*5, triAy+36*9);
+   $atc.triAc("clock27", "white", trix+21*4, triAy+36*9);
+   $atc.triBc("clock28", "white", trix+21*3, triAy+36*9);
+   $atc.triAc("clock29", "white", trix+21*2, triAy+36*9);
+   $atc.triBc("clock30", "white", trix+21*1, triAy+36*9).find("text").html("30");
+   $atc.triAc("clock31", "white", trix+21*0, triAy+36*9);
+   $atc.triBc("clock32", "white", trix-21*1, triAy+36*9);
+   $atc.triAc("clock33", "white", trix-21*2, triAy+36*9);
+   $atc.triBc("clock34", "white", trix-21*3, triAy+36*9);
+   $atc.triAc("clock35", "white", trix-21*4, triAy+36*9).find("text").html("35");
+
+   $atc.triBc("clock36", "white", trix-21*5, triAy+36*9);
+   $atc.triAc("clock37", "white", trix-21*5, triAy+36*8);
+   $atc.triBc("clock38", "white", trix-21*6, triAy+36*8);
+   $atc.triAc("clock39", "white", trix-21*6, triAy+36*7);
+   $atc.triBc("clock40", "white", trix-21*7, triAy+36*7).find("text").html("40");
+   $atc.triAc("clock41", "white", trix-21*7, triAy+36*6);
+   $atc.triBc("clock42", "white", trix-21*8, triAy+36*6);
+   $atc.triAc("clock43", "white", trix-21*8, triAy+36*5);
+   $atc.triBc("clock44", "white", trix-21*9, triAy+36*5);
+   $atc.triAc("clock45", "white", trix-21*9, triAy+36*4).find("text").html("45");
+
+   $atc.triBc("clock46", "white", trix-21*8, triAy+36*4);
+   $atc.triAc("clock47", "white", trix-21*8, triAy+36*3);
+   $atc.triBc("clock48", "white", trix-21*7, triAy+36*3);
+   $atc.triAc("clock49", "white", trix-21*7, triAy+36*2);
+   $atc.triBc("clock50", "white", trix-21*6, triAy+36*2).find("text").html("50");
+   $atc.triAc("clock51", "white", trix-21*6, triAy+36*1);
+   $atc.triBc("clock52", "white", trix-21*5, triAy+36*1);
+   $atc.triAc("clock53", "white", trix-21*5, triAy+36*0);
+   $atc.triBc("clock54", "white", trix-21*4, triAy+36*0);
+   $atc.triAc("clock55", "white", trix-21*4, triAy-36*1).find("text").html("55");
+
+   $atc.triBc("clock56", "white", trix-21*3, triAy-36*1);
+   $atc.triAc("clock57", "white", trix-21*2, triAy-36*1);
+   $atc.triBc("clock58", "white", trix-21*1, triAy-36*1);
+   $atc.triAc("clock59", "white", trix-21*0, triAy-36*1);
+
+   $triM = $at.svg({id: "triangleM"}).hide();
+   $triM.css("mix-blend-mode", "difference");
+   $rotM = $triM.g({});
+   $rotM.polygon({style: "fill:white", points: "200 130, 300 300, 100 300"});
+   $rotM.css("transform-origin", "center").s(1.5).tX(200-1).tY(164-1).end();
+
+/*
+let t = 0;
+
+function animate() {
+   t += 0.1;
+   if(t >= 1000000){ t = 0; }
+
+   $at2.r(t).end();
+   
+   requestAnimationFrame(animate);
+}
+
+animate();
+*/
+
+</script>
+
+
+</body>
+</html>
+

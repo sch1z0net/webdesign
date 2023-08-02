@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>sch1z0.net - intro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+  width: 100%; 
+  height: 100%;
+}
+
+#main {
+    position: absolute; 
+    height: 100%;
+    width:100%; 
+
+    z-index:1; 
+
+    mix-blend-mode: luminosity;
+}
+
+#container {
+    position: absolute;
+    margin: auto;
+    width: 100%; 
+    height: 100%;
+    background-image: url("../images/intro/forest2_.png");
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+#container2 {
+    position: absolute;
+    margin: auto;
+    width: 100%; 
+    height: 100%;
+    background-image: url("../images/intro/forest3_.png");
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+    mix-blend-mode: overlay;
+    animation: flicker 10s forwards infinite;
+}
+
+#container3 {
+    display: flex;
+    vertical-align: middle;
+    justify-content: center;
+    position: absolute;
+    margin: auto;
+    width: 100%; 
+    height: 100%;
+    background-color: white;
+    mix-blend-mode: difference;
+    animation: sudden 10s forwards infinite;
+}
+
+#subtexts {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    margin-top: 100px;
+
+    align-items:center;
+    justify-content:center;
+
+    font-family: Questrial;
+    color: white;
+    filter: drop-shadow(1px 1px 2px black);
+    
+    user-select: none;
+    flex-direction: column;
+    mix-blend-mode: multiply;
+
+    animation: fade 12s normal;
+}
+
+.subtext {
+    font-size: 100%;
+    filter: drop-shadow(1px 1px 2px black);
+    user-select: none;
+}
+
+#text1 {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+
+    align-items:center;
+    justify-content:center;
+
+    font-family: Questrial;
+    color: white;
+    filter: drop-shadow(1px 1px 2px black);
+
+    user-select: none;
+
+    font-size: 1000%;
+    mix-blend-mode: difference; 
+
+    animation: fade 6s normal;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+
+
+
+@media (max-width:600px)  { 
+    #text1 { 
+       font-size: 400%;
+    }
+}
+
+#at {
+   margin: auto;
+}
+
+@keyframes flicker {
+  0% {
+    transform: scale(0.99); opacity: 0.1;
+  }
+  25% {
+    transform: scale(1.01); opacity: 0.3;
+  }
+  50% {
+    transform: scale(0.99); opacity: 0.5;
+  }
+  75% {
+    transform: scale(1.01); opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.99); opacity: 0.1;
+  }
+}
+
+@keyframes sudden {
+  0% { opacity: 0.0; }
+  25% { opacity: 0.0; }
+  26% { opacity: 1.0; }
+  27% { opacity: 0.0; }
+  75% { opacity: 0.0; }
+  76% { opacity: 1.0; }
+  77% { opacity: 0.0; }
+  80% { opacity: 1.0; }
+}
+
+#source {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    color: rgba(1,1,1,0.6);
+    font-family: Questrial;
+    z-index:2; 
+}
+
+.zerolink {
+   color: white; 
+   text-decoration: none;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="/scripts/noise.js"></script>
+<script src="/scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+    <div id="main">
+       <div id="container"></div>
+       <div id="container2"></div>
+       <div id="container3"></div>
+       <div id="text1">TRAUMA</div>
+       <div id="subtexts">
+        <div class="subtext">TRAUM (german: DREAM)</div>
+        <div class="subtext">TURM (german: TOWER)</div>
+        <div class="subtext">MUT (german: COURAGE)</div>
+       </div>
+    </div>
+    <a id="source" class="zerolink" href="https://de.freepik.com/fotos-kostenlos/flacher-winkelschuss-der-baeume-in-einem-redwood-wald_13381190.htm#query=forest%20bottom%20view&position=5&from_view=search&track=ais">Source: wirestock (on freepik)</a>
+
+<script>
+   $at = $("#container3").svg({id: "at", x: 0, y: 0, viewBox: "0 0 400 400"}).resize();
+   $tri = $at.svg({id: "triangle"}).g({class: "pol"}).g({class: "rot"});
+   $tri.polygon({style: "fill:black", points: "200 130, 300 300, 100 300"});
+</script>
+
+</body>
+</html>
+

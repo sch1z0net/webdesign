@@ -1,0 +1,819 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Canvas experiment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+
+#container {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#at {
+    transform-origin: center;
+    position: absolute; 
+    mix-blend-mode: difference;
+    transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -o-transform: scale(1.0);
+}
+
+.mainsvg{
+    width: 80%;
+    height: 80%;
+}
+
+.pol{
+    transform: scale(0.1);
+    -ms-transform: scale(0.1);
+    -webkit-transform: scale(0.1);
+    -moz-transform: scale(0.1);
+    -o-transform: scale(0.1);
+}
+
+.rot{
+    transform-origin: center;
+}
+
+.letter{
+    user-select: none;
+}
+
+.whitebg {
+  user-select: none;
+  background-color: #FFFFFF;
+  position: absolute;
+  display: inline-block;
+  mix-blend-mode: difference;
+  width: 100%;
+  height:100%;
+}
+
+#bgtripol{
+    transform-origin: center;
+}
+
+#bgtrirot{
+    transform-origin: center;
+}
+
+#bgtritra{
+    transform: translateY(3.5px) scale(0.7);
+    transform-origin: center;
+}
+
+
+.slidecontainer {
+  width: 15%; /* Width of the outside container */
+  display: inline-block;
+  position: absolute;
+  z-index: 10;
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #ffffff; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.9; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #1a1a1a; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #1a1a1a; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+}
+
+</style>
+
+
+<script type="x-shader/x-vertex" id="sv2">
+attribute vec2 pos;
+//uniform float pointSize;
+void main() {
+    gl_Position = vec4(pos.xy, 0.0, 1.0);
+    //gl_PointSize = 1;//pointSize;
+} 
+</script>
+<script type="x-shader/x-fragment" id="sf2">
+precision mediump float;
+uniform float time;
+
+const float PHI = 1.61803398874989484820459; // Φ = Golden Ratio 
+float gold_noise(in vec2 xy, in float seed)
+{
+   return fract(tan(distance(xy*PHI, xy)*seed)*xy.x);
+}
+
+vec3 hsl2rgb( in vec3 c )
+{
+    vec3 rgb = clamp( abs(mod(c.x*6.0+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0, 0.0, 1.0 );
+    return c.z + c.y * (rgb-0.5)*(1.0-abs(2.0*c.z-1.0));
+}
+
+void main() {
+    vec2 xy = gl_FragCoord.xy;
+    float seed = fract(time); // fractional base seed
+
+    vec3 rcol = vec3 (gold_noise(xy, seed+0.1),
+                      0.8*gold_noise(xy, seed+0.2),
+                      min(0.08, 0.5*gold_noise(xy, seed+0.3)));
+
+    gl_FragColor = vec4 (hsl2rgb(rcol), 1.0);
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+    <div id="main" style="position: absolute; width:100%; height:100vh; z-index:1; mix-blend-mode: difference;">
+
+        <div class="slidecontainer">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range1">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range2">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range3">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range4">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range5">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range6">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range7">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range8">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range9">
+           <input type="range" min="0" max="100" value="100" class="slider" id="range10">
+        </div>
+
+       <div id="container">
+        <svg id="bgcircle" class="mainsvg" viewBox="0 0 500 500" style="position: absolute; mix-blend-mode: difference;">
+            <circle cx="50%" cy="50%" r="220" fill="white"/>
+        </svg>
+
+        <svg id="bgcircle2" class="mainsvg"  viewBox="0 0 500 500" style="position: absolute; mix-blend-mode: difference;">
+            <circle cx="50%" cy="50%" r="170" fill="white"/>
+        </svg>
+
+        <svg id="bgcircle3" class="mainsvg" viewBox="0 0 500 500" style="position: absolute; mix-blend-mode: difference;">
+            <circle cx="50%" cy="50%" r="190" fill="white"/>
+            <circle cx="50%" cy="52%" r="185" fill="black"/>
+        </svg>
+
+        <svg id="bhcircles" class="mainsvg" viewBox="0 0 500 500" style="position: absolute; mix-blend-mode: difference;">
+            <circle cx="100px" cy="100px" r="30" fill="white"/>
+            <circle cx="400px" cy="100px" r="30" fill="white"/>
+            <circle cx="100px" cy="400px" r="30" fill="white"/>
+            <circle cx="400px" cy="400px" r="30" fill="white"/>
+            <circle cx="250px" cy="36px" r="30" fill="white"/>
+            <circle cx="250px" cy="464px" r="30" fill="white"/>
+            <circle cx="36px" cy="250px" r="30" fill="white"/>
+            <circle cx="464px" cy="250px" r="30" fill="white"/>
+
+            <polygon points="140 120, 100 100, 250 255, 250 245" fill="white"/>
+            <polygon points="140 120, 100 100, 250 255, 250 245" fill="white" transform="translate(250,250) rotate(45) translate(-250,-250)"/>
+            <polygon points="140 120, 100 100, 250 255, 250 245" fill="white" transform="translate(250,250) rotate(90) translate(-250,-250)"/>
+            <polygon points="140 120, 100 100, 250 255, 250 245" fill="white" transform="translate(250,250) rotate(135) translate(-250,-250)"/>
+            <polygon points="140 120, 100 100, 250 255, 250 245" fill="white" transform="translate(250,250) rotate(180) translate(-250,-250)"/>
+            <polygon points="140 120, 100 100, 250 255, 250 245" fill="white" transform="translate(250,250) rotate(225) translate(-250,-250)"/>
+            <polygon points="140 120, 100 100, 250 255, 250 245" fill="white" transform="translate(250,250) rotate(270) translate(-250,-250)"/>
+            <polygon points="140 120, 100 100, 250 255, 250 245" fill="white" transform="translate(250,250) rotate(315) translate(-250,-250)"/>
+        </svg>
+
+          <svg id="bgtriangle" class="mainsvg" viewBox="0 0 50 50" style="position: absolute;">
+                   <g id="bgtripol">
+                    <g id="bgtrirot">
+                      <g id="bgtritra"> 
+                    <polygon points="25 50, 50 7, 0 7" fill="white"/>
+                    <polygon points="23 40, 27 40, 27 10, 23 10" fill="black"/>
+                    <polygon points="35 16, 35 20, 15 20, 15 16" fill="black"/>
+                 </g>
+                </g>
+             </g>
+          </svg>
+
+         <svg id="at" class="mainsvg" viewBox="-20 -20 400 400">
+          <svg id="triangle" viewBox="0 0 50 50" style="visibility: hidden;">
+           <g class="tra">
+             <g class="pol">
+                <g class="rot">
+              <polygon points="25 7, 50 50, 0 50" fill="white"/>
+               <defs>
+                 <style>
+                   @import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+                 </style>
+               </defs>
+              <text class="letter" x="17" y="41" font-family="Quicksand" font-size="25px"></text>
+            </g>
+            </g>
+           </g>
+          </svg>
+          <svg id="triangleB" viewBox="0 0 50 50" style="visibility: hidden;">
+                <g class="tra">
+                  <g class="pol">
+                    <g class="rot">
+                    <polygon points="25 50, 50 7, 0 7" fill="white"/>
+                </g>
+               </g>
+             </g>
+          </svg>
+         </svg>
+       </div>
+    </div>
+
+    <script type="application/javascript">
+    "use strict";
+     var infoEl = document.createElement('input');
+     infoEl.style.width = '100%';
+     infoEl.style.border = '0px solid #000';
+     //document.getElementById("main").style.textAlign = 'center';
+     document.body.style.backgroundColor = '#000';
+     var info = {frame: 0};
+     //document.body.appendChild( infoEl );
+     var canvas = document.getElementById("bgnoise");
+     document.body.appendChild( canvas );
+     var gl = canvas.getContext('webgl', {antialias: true});
+     var w = canvas.width = innerWidth;
+     var h = canvas.height = innerHeight - infoEl.clientHeight;
+     //var w = canvas.width = Math.min(innerWidth, innerHeight-infoEl.clientHeight);
+     //var h = canvas.height = canvas.width;
+     document.body.style.overflow = 'hidden';
+     document.body.style.margin = '0px';
+     document.body.style.padding = '0px';
+
+     var lframe = 0;
+     var ltime = (new Date()).getTime();
+     setInterval(function(){
+        var s = '';
+        var time = (new Date()).getTime();
+        var delay1 = time-ltime;
+        ltime = time;
+        info.fps = ((info.frame-lframe)/delay1)*1000;
+        lframe = info.frame;
+        for(var i in info) {
+            s += i+': ';
+            var val = info[i];
+            if(typeof val === 'number')
+                s += val.toFixed(2);
+            else
+                s += val;
+            s += " ";
+        }
+        infoEl.value = s;
+    }, 200);
+
+     var error = function(text) {
+        var id = 'error-log';
+        var el = document.getElementById(id);
+        if(!el) {
+            el = document.createElement('textarea');
+            el.id = id;
+            el.setAttribute('rows', 8);
+            el.style.width = '100%';
+            document.body.insertBefore(el, canvas);
+        }
+        el.value += text+"\n";
+        render = function(){};
+    };
+
+    window.onerror = function(e, url, line, col, err) {error(err);};
+
+    var loadShader = function(id) {
+        var el = document.getElementById(id);
+        var type = el.type === 'x-shader/x-fragment' ? gl.FRAGMENT_SHADER : gl.VERTEX_SHADER;
+        var source = el.textContent;
+        var shader = gl.createShader(type);
+        gl.shaderSource( shader, source );
+        gl.compileShader( shader );
+        if( ! gl.getShaderParameter(shader, gl.COMPILE_STATUS) ) {
+            error("error compile shader: "+id+" \n"+gl.getShaderInfoLog(shader)+"\n");
+            null;
+        }
+        return {name: id, shader: shader, source: source, type: type};
+    };
+    var createProgram = function(name, sv, sf) {
+        var program = gl.createProgram();
+        gl.attachShader( program, sv.shader );
+        gl.attachShader( program, sf.shader );
+        gl.linkProgram( program );
+        if( !gl.getProgramParameter(program, gl.LINK_STATUS) ) {
+            error( "can't link program "+name+":\n"+gl.getProgramInfoLog(program)+"\n" );
+            return null;
+        }
+        gl.validateProgram( program );
+        if( !gl.getProgramParameter(program, gl.VALIDATE_STATUS) ) {
+            error( "can't validate program "+name+":\n"+gl.getProgramInfoLog(program)+"\n" );
+            return null;
+        }
+        return {name: name, program: program, sv: sv, sf: sf};
+    };
+
+    var counter = 0;
+    var fraction = 0;
+    var timer = 0;
+    var render = function() {
+        gl.viewport(0,0, w,h);
+        gl.clearColor(0,0,0, 1);
+        gl.clear( gl.COLOR_BUFFER_BIT );
+        testDraw();
+        gl.flush();
+        ++info.frame;
+        timer--;
+        if(timer<=0){
+            timer = 4;
+            counter = (counter+1)%1000;
+            fraction = counter/1000;
+        }
+        requestAnimationFrame(render);
+    };
+
+
+function resizeCanvas() {
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  if (canvas.width != width ||
+      canvas.height != height) {
+    canvas.width = width;
+    canvas.height = height;
+    w = width;
+    h = height;
+    render();
+  }
+}
+
+window.addEventListener('resize', resizeCanvas);
+
+
+    var loadShaders = function() {
+        var sf = loadShader('sf2');
+        var sv = loadShader('sv2');
+        scene.program = createProgram('program1', sv, sf);
+    };
+
+    var testDraw = function() {
+        gl.useProgram( scene.program.program );
+        gl.enableVertexAttribArray( scene.posLoc );
+        gl.bindBuffer( gl.ARRAY_BUFFER, scene.posBuf );
+
+        gl.uniform1f(scene.timeLoc, fraction);
+        //gl.uniform1f(scene.timeLoc, info.frame);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+    };
+
+    var prepareGeometry = function() {
+        gl.useProgram( scene.program.program );
+    // *** attrib ***
+    // pos
+        scene.pos = new Float32Array([
+            -1,-1,
+            1,-1,
+            1, 1,
+            1, 1,
+            -1, 1,
+            -1,-1,
+            ]);
+        scene.posLoc = gl.getAttribLocation(scene.program.program, 'pos');
+        scene.posBuf = gl.createBuffer();
+        gl.bindBuffer( gl.ARRAY_BUFFER, scene.posBuf );
+        gl.bufferData( gl.ARRAY_BUFFER, scene.pos, gl.DYNAMIC_DRAW );
+        gl.vertexAttribPointer(scene.posLoc, 2, gl.FLOAT, false, 2*4,0);
+    // *** uniform ***
+    // time
+        scene.timeLoc = gl.getUniformLocation(scene.program.program, 'time');
+    //error(gl.getError());
+    };
+
+    var scene = {};
+    loadShaders();
+    prepareGeometry();
+    render();
+</script>
+
+<script type="text/javascript">
+   
+   let tri  = document.getElementById("triangle");
+   tri.style.visibility = "visible";
+   let triB = document.getElementById("triangleB");
+   triB.style.visibility = "visible";
+
+   let at = document.getElementById("at");
+
+   let tri1 = tri.cloneNode(true);
+   let tri2 = tri.cloneNode(true);
+   let tri3 = tri.cloneNode(true);
+   let tri4 = tri.cloneNode(true);
+   let tri5 = tri.cloneNode(true);
+   let tri6 = tri.cloneNode(true);
+   let tri7 = tri.cloneNode(true);
+   let tri8 = tri.cloneNode(true);
+   let tri9 = tri.cloneNode(true);
+   let tri10 = tri.cloneNode(true);
+   let tri11 = tri.cloneNode(true);
+   let tri12 = tri.cloneNode(true);
+   let tri13 = tri.cloneNode(true);
+   let tri14 = tri.cloneNode(true);
+   let tri15 = tri.cloneNode(true);
+   let tri16 = tri.cloneNode(true);
+   let tri17 = tri.cloneNode(true);
+   let tri18 = tri.cloneNode(true);
+   let tri19 = tri.cloneNode(true);
+   let tri20 = tri.cloneNode(true);
+   let tri21 = tri.cloneNode(true);
+   let tri22 = tri.cloneNode(true);
+   let tri23 = tri.cloneNode(true);
+   let tri24 = tri.cloneNode(true);
+   let tri25 = tri.cloneNode(true);
+   let tri26 = tri.cloneNode(true);
+   let tri27 = tri.cloneNode(true);
+   let tri28 = tri.cloneNode(true);
+
+   let tri1B = triB.cloneNode(true);
+   let tri2B = triB.cloneNode(true);
+   let tri3B = triB.cloneNode(true);
+   let tri4B = triB.cloneNode(true);
+   let tri5B = triB.cloneNode(true);
+   let tri6B = triB.cloneNode(true);
+   let tri7B = triB.cloneNode(true);
+   let tri8B = triB.cloneNode(true);
+   let tri9B = triB.cloneNode(true);
+   let tri10B = triB.cloneNode(true);
+   let tri11B = triB.cloneNode(true);
+   let tri12B = triB.cloneNode(true);
+   let tri13B = triB.cloneNode(true);
+   let tri14B = triB.cloneNode(true);
+   let tri15B = triB.cloneNode(true);
+   let tri16B = triB.cloneNode(true);
+   let tri17B = triB.cloneNode(true);
+   let tri18B = triB.cloneNode(true);
+   let tri19B = triB.cloneNode(true);
+   let tri20B = triB.cloneNode(true);
+   let tri21B = triB.cloneNode(true);
+
+   /*tri1.querySelector(".letter").innerHTML = "a";
+   tri2.querySelector(".letter").innerHTML = "b";
+   tri3.querySelector(".letter").innerHTML = "c";
+   tri4.querySelector(".letter").innerHTML = "d";
+   tri5.querySelector(".letter").innerHTML = "e";
+   tri6.querySelector(".letter").innerHTML = "f";
+   tri7.querySelector(".letter").innerHTML = "g";
+   tri8.querySelector(".letter").innerHTML = "h";
+   tri9.querySelector(".letter").innerHTML = "i";
+   tri10.querySelector(".letter").innerHTML = "j";
+   tri11.querySelector(".letter").innerHTML = "k";
+   tri12.querySelector(".letter").innerHTML = "l";
+   tri13.querySelector(".letter").innerHTML = "m";
+   tri14.querySelector(".letter").innerHTML = "n";
+   tri15.querySelector(".letter").innerHTML = "o";
+   tri16.querySelector(".letter").innerHTML = "p";
+   tri17.querySelector(".letter").innerHTML = "q";
+   tri18.querySelector(".letter").innerHTML = "r";
+   tri19.querySelector(".letter").innerHTML = "s";
+   tri20.querySelector(".letter").innerHTML = "t";
+   tri21.querySelector(".letter").innerHTML = "u";
+   tri22.querySelector(".letter").innerHTML = "▲";
+   tri23.querySelector(".letter").innerHTML = "v";
+   tri24.querySelector(".letter").innerHTML = "w";
+   tri25.querySelector(".letter").innerHTML = "x";
+   tri26.querySelector(".letter").innerHTML = "y";
+   tri27.querySelector(".letter").innerHTML = "z";
+   tri28.querySelector(".letter").innerHTML = "▲";*/
+
+   tri.style.visibility = "hidden";
+   triB.style.visibility = "hidden";
+
+   at.appendChild(tri1);
+   tri1.setAttribute("id", "tri1");
+   tri1.setAttribute("x", "160");
+   tri1.setAttribute("y", "10");
+
+   at.appendChild(tri2);
+   tri2.setAttribute("id", "tri2");
+   tri2.setAttribute("x", "139");
+   tri2.setAttribute("y", "46");
+   at.appendChild(tri3);
+   tri3.setAttribute("id", "tri3");
+   tri3.setAttribute("x", "181");
+   tri3.setAttribute("y", "46");
+
+   at.appendChild(tri4);
+   tri4.setAttribute("id", "tri4");
+   tri4.setAttribute("x", "118");
+   tri4.setAttribute("y", "82");
+   at.appendChild(tri5);
+   tri5.setAttribute("id", "tri5");
+   tri5.setAttribute("x", "160");
+   tri5.setAttribute("y", "82");
+   at.appendChild(tri6);
+   tri6.setAttribute("id", "tri6");
+   tri6.setAttribute("x", "202");
+   tri6.setAttribute("y", "82");
+
+   at.appendChild(tri7);
+   tri7.setAttribute("id", "tri7");
+   tri7.setAttribute("x", "97");
+   tri7.setAttribute("y", "118");
+   at.appendChild(tri8);
+   tri8.setAttribute("id", "tri8");
+   tri8.setAttribute("x", "139");
+   tri8.setAttribute("y", "118");
+   at.appendChild(tri9);
+   tri9.setAttribute("id", "tri9");
+   tri9.setAttribute("x", "181");
+   tri9.setAttribute("y", "118");
+   at.appendChild(tri10);
+   tri10.setAttribute("id", "tri10");
+   tri10.setAttribute("x", "223");
+   tri10.setAttribute("y", "118");
+
+   at.appendChild(tri11);
+   tri11.setAttribute("id", "tri11");
+   tri11.setAttribute("x", "76");
+   tri11.setAttribute("y", "154");
+   at.appendChild(tri12);
+   tri12.setAttribute("id", "tri12");
+   tri12.setAttribute("x", "118");
+   tri12.setAttribute("y", "154");
+   at.appendChild(tri13);
+   tri13.setAttribute("id", "tri13");
+   tri13.setAttribute("x", "160");
+   tri13.setAttribute("y", "154");
+   at.appendChild(tri14);
+   tri14.setAttribute("id", "tri14");
+   tri14.setAttribute("x", "202");
+   tri14.setAttribute("y", "154");
+   at.appendChild(tri15);
+   tri15.setAttribute("id", "tri15");
+   tri15.setAttribute("x", "244");
+   tri15.setAttribute("y", "154");
+
+   at.appendChild(tri16);
+   tri16.setAttribute("id", "tri16");
+   tri16.setAttribute("x", "55");
+   tri16.setAttribute("y", "190");
+   at.appendChild(tri17);
+   tri17.setAttribute("id", "tri17");
+   tri17.setAttribute("x", "97");
+   tri17.setAttribute("y", "190");
+   at.appendChild(tri18);
+   tri18.setAttribute("id", "tri18");
+   tri18.setAttribute("x", "139");
+   tri18.setAttribute("y", "190");
+   at.appendChild(tri19);
+   tri19.setAttribute("id", "tri19");
+   tri19.setAttribute("x", "181");
+   tri19.setAttribute("y", "190");
+   at.appendChild(tri20);
+   tri20.setAttribute("id", "tri20");
+   tri20.setAttribute("x", "223");
+   tri20.setAttribute("y", "190");
+   at.appendChild(tri21);
+   tri21.setAttribute("id", "tri21");
+   tri21.setAttribute("x", "265");
+   tri21.setAttribute("y", "190");
+
+   at.appendChild(tri22);
+   tri22.setAttribute("id", "tri22");
+   tri22.setAttribute("x", "34");
+   tri22.setAttribute("y", "226");
+   at.appendChild(tri23);
+   tri23.setAttribute("id", "tri23");
+   tri23.setAttribute("x", "76");
+   tri23.setAttribute("y", "226");
+   at.appendChild(tri24);
+   tri24.setAttribute("id", "tri24");
+   tri24.setAttribute("x", "118");
+   tri24.setAttribute("y", "226");
+   at.appendChild(tri25);
+   tri25.setAttribute("id", "tri25");
+   tri25.setAttribute("x", "160");
+   tri25.setAttribute("y", "226");
+   at.appendChild(tri26);
+   tri26.setAttribute("id", "tri26");
+   tri26.setAttribute("x", "202");
+   tri26.setAttribute("y", "226");
+   at.appendChild(tri27);
+   tri27.setAttribute("id", "tri27");
+   tri27.setAttribute("x", "244");
+   tri27.setAttribute("y", "226");
+   at.appendChild(tri28);
+   tri28.setAttribute("id", "tri28");
+   tri28.setAttribute("x", "286");
+   tri28.setAttribute("y", "226");
+   
+   at.appendChild(tri1B);
+   tri1B.setAttribute("id", "tri1B");
+   tri1B.setAttribute("x", "160");
+   tri1B.setAttribute("y", "45");
+
+   at.appendChild(tri2B);
+   tri2B.setAttribute("id", "tri2B");
+   tri2B.setAttribute("x", "139");
+   tri2B.setAttribute("y", "81");
+   at.appendChild(tri3B);
+   tri3B.setAttribute("id", "tri3B");
+   tri3B.setAttribute("x", "181");
+   tri3B.setAttribute("y", "81");
+
+   at.appendChild(tri4B);
+   tri4B.setAttribute("id", "tri4B");
+   tri4B.setAttribute("x", "118");
+   tri4B.setAttribute("y", "117");
+   at.appendChild(tri5B);
+   tri5B.setAttribute("id", "tri5B");
+   tri5B.setAttribute("x", "160");
+   tri5B.setAttribute("y", "117");
+   at.appendChild(tri6B);
+   tri6B.setAttribute("id", "tri6B");
+   tri6B.setAttribute("x", "202");
+   tri6B.setAttribute("y", "117");
+
+   at.appendChild(tri7B);
+   tri7B.setAttribute("id", "tri7B");
+   tri7B.setAttribute("x", "97");
+   tri7B.setAttribute("y", "153");
+   at.appendChild(tri8B);
+   tri8B.setAttribute("id", "tri8B");
+   tri8B.setAttribute("x", "139");
+   tri8B.setAttribute("y", "153");
+   at.appendChild(tri9B);
+   tri9B.setAttribute("id", "tri9B");
+   tri9B.setAttribute("x", "181");
+   tri9B.setAttribute("y", "153");
+   at.appendChild(tri10B);
+   tri10B.setAttribute("id", "tri10B");
+   tri10B.setAttribute("x", "223");
+   tri10B.setAttribute("y", "153");
+
+   at.appendChild(tri11B);
+   tri11B.setAttribute("id", "tri11B");
+   tri11B.setAttribute("x", "76");
+   tri11B.setAttribute("y", "189");
+   at.appendChild(tri12B);
+   tri12B.setAttribute("id", "tri12B");
+   tri12B.setAttribute("x", "118");
+   tri12B.setAttribute("y", "189");
+   at.appendChild(tri13B);
+   tri13B.setAttribute("id", "tri13B");
+   tri13B.setAttribute("x", "160");
+   tri13B.setAttribute("y", "189");
+   at.appendChild(tri14B);
+   tri14B.setAttribute("id", "tri14B");
+   tri14B.setAttribute("x", "202");
+   tri14B.setAttribute("y", "189");
+   at.appendChild(tri15B);
+   tri15B.setAttribute("id", "tri15B");
+   tri15B.setAttribute("x", "244");
+   tri15B.setAttribute("y", "189");
+
+   at.appendChild(tri16B);
+   tri16B.setAttribute("id", "tri16B");
+   tri16B.setAttribute("x", "55");
+   tri16B.setAttribute("y", "225");
+   at.appendChild(tri17B);
+   tri17B.setAttribute("id", "tri17B");
+   tri17B.setAttribute("x", "97");
+   tri17B.setAttribute("y", "225");
+   at.appendChild(tri18B);
+   tri18B.setAttribute("id", "tri18B");
+   tri18B.setAttribute("x", "139");
+   tri18B.setAttribute("y", "225");
+   at.appendChild(tri19B);
+   tri19B.setAttribute("id", "tri19B");
+   tri19B.setAttribute("x", "181");
+   tri19B.setAttribute("y", "225");
+   at.appendChild(tri20B);
+   tri20B.setAttribute("id", "tri20B");
+   tri20B.setAttribute("x", "223");
+   tri20B.setAttribute("y", "225");
+   at.appendChild(tri21B);
+   tri21B.setAttribute("id", "tri21B");
+   tri21B.setAttribute("x", "265");
+   tri21B.setAttribute("y", "225");
+
+   
+
+let t = 0;
+let r = 0;
+let ph = [];
+let bgtrir = 0;
+let bgscale = 0;
+let cscale = 0;
+let bhscale = 0;
+
+let bgscale_amp = 0.5;
+let bgscale_off = 0.5;
+let bgscale_spd = 0.5;
+let cscale_amp = 0.5;
+let cscale_off = 0.5;
+let cscale_spd = 0.5;
+let bhscale_amp = 0.5;
+let bhscale_off = 0.5;
+let bhscale_spd = 0.5;
+let tscale_spd = 1.0;
+
+for(var i = 0; i < 49; i++){
+   ph[i] = Math.random()*100;
+}
+
+function animate() {
+   t += 0.1*(tscale_spd-0.5)*10;
+   bgtrir = t;
+   bgscale = ((Math.sin(t*bgscale_spd*0.5)+1)/2)*(bgscale_amp*0.1)+(bgscale_off+0.1);
+   cscale = Math.sin(t*cscale_spd*0.2)*(cscale_amp*0.1)+(cscale_off*0.5+0.5);
+   bhscale = Math.sin(t*bhscale_spd*0.2)*(bhscale_amp*0.1)+(bhscale_off*0.5+0.5);
+   if(t >= 1000000){
+    t = 0;
+   }
+   if(t <= -1000000){
+    t = 0;
+   }
+   for(var i = 0; i < at.getElementsByClassName('rot').length; i++){
+     r = Math.sin(t+ph[i])*2.2;
+     at.getElementsByClassName('rot')[i].style.transform = "rotate("+r+"deg)";
+   }
+
+   if(bgtrir>=0){ at.style.transform = "scale("+bgscale+")"+"rotate(-"+bgtrir+"deg)"; }
+   else{ at.style.transform = "scale("+bgscale+")"+"rotate("+bgtrir+"deg)"; }
+
+   document.getElementById('bgtrirot').style.transform = "rotate("+bgtrir+"deg)";
+   document.getElementById('bgtripol').style.transform = "scale("+bgscale+")";
+
+   document.getElementById('bgcircle').style.transform = "scale("+cscale+")";
+   document.getElementById('bhcircles').style.transform = "scale("+bhscale+")"+"rotate("+bgtrir*2+"deg)";
+
+   requestAnimationFrame(animate);
+}
+
+animate();
+
+var slider1 = document.getElementById("range1");
+var slider2 = document.getElementById("range2");
+var slider3 = document.getElementById("range3");
+var slider4 = document.getElementById("range4");
+var slider5 = document.getElementById("range5");
+var slider6 = document.getElementById("range6");
+var slider7 = document.getElementById("range7");
+var slider8 = document.getElementById("range8");
+var slider9 = document.getElementById("range9");
+var slider10 = document.getElementById("range10");
+
+slider1.oninput = function() { bgscale_amp = slider1.value / 100; } 
+slider2.oninput = function() { bgscale_off = slider2.value / 100; } 
+slider3.oninput = function() { bgscale_spd = slider3.value / 100; } 
+slider4.oninput = function() { cscale_amp = slider4.value / 100; } 
+slider5.oninput = function() { cscale_off = slider5.value / 100; } 
+slider6.oninput = function() { cscale_spd = slider6.value / 100; } 
+slider7.oninput = function() { bhscale_amp = slider7.value / 100; } 
+slider8.oninput = function() { bhscale_off = slider8.value / 100; } 
+slider9.oninput = function() { bhscale_spd = slider9.value / 100; } 
+slider10.oninput = function() { tscale_spd = slider10.value / 100; } 
+
+
+</script>
+
+
+</body>
+</html>
+

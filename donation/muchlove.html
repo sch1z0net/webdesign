@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title><3<3<3<3<3<3<3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+  width:100%;
+  height:100%;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+#main {
+    position: absolute; 
+    width:100%; 
+    height:100%; 
+    z-index:20; 
+    mix-blend-mode: difference;
+}
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Questrial;
+    color: white;
+
+    user-select: none;
+
+    flex-direction: column;
+}
+
+#menu {
+    display: block;
+    font-size: 140%;
+    width: 400px;
+    text-align: center;
+    max-width: 95%;
+}
+
+.menu_element {
+    display: inline-block;
+    padding: 5%;
+    text-decoration: underline;
+    box-sizing: border-box;
+}
+
+
+.zerolink {
+   color: white; 
+   text-decoration: underline;
+}
+
+
+.zerolink:hover{
+   font-weight: bolder;
+}
+
+.whitebg {
+  user-select: none;
+  background-color: #FFFFFF;
+  position: absolute;
+  display: inline-block;
+  mix-blend-mode: difference;
+  width: 100%;
+  height:100%;
+}
+
+#donate-button {
+    /*display: block;
+    font-size: 160%;
+    width: 40%;
+    text-align: center;*/
+    margin-top: -5px;
+}
+
+#cover {
+   display: flex;
+   flex-flow: column;
+   width: 400px;
+   max-width: 95%;
+}
+
+#by {
+    display: flex;
+    border: solid 1px white;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(100,100,100);
+    padding: 10px;
+}
+
+#info {
+   font-size: 100%;
+   margin: 10px;
+   padding: 0;
+}
+
+#info > p{
+   margin: 0;
+   padding: 5px;
+}
+
+
+#title {
+    font-size: 460%;
+    text-align: center;
+}
+
+#profile {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+#donate_box {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px white;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(100,100,100);
+    width: 400px;
+    max-width: 95%;
+    font-size: 80%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#comment {
+    text-align:justify;
+}
+
+
+.corner {
+  font-family: Questrial;
+  z-index: 10;
+  position: absolute;
+  top: -20px;
+  right: -70px;
+  width: 200px;
+  height: 100px;
+  transform: rotate(45deg);
+  background: floralwhite;
+  padding-top: 70px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#imprint {
+    position: absolute;
+    bottom: 10px;
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="/scripts/noise.js"></script>
+<script src="/scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+
+    <div id="main">
+       <div id="container">
+
+          <div id="cover">
+            <div id="title"> Thank YOU so much! <3 </div>
+            <div id="by">
+                Wishing you the best! Much love, much health and much happiness in life <3
+            </div>
+          </div>
+
+
+
+           <div id="imprint">
+            © 2023 • Sebastian Prusak • <a class="zerolink" href="../imprint.html">imprint</a>
+            • <a class="zerolink" href="../index.html">main page</a>
+           </div>
+           </div>
+
+       </div>
+
+    </div>
+
+</body>
+
+
+</body>
+</html>
+

@@ -1,0 +1,367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sch1z0.net</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#at {
+    transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -o-transform: scale(1.0);
+}
+
+.pol{
+    transform: scale(0.192);
+    -ms-transform: scale(0.192);
+    -webkit-transform: scale(0.192);
+    -moz-transform: scale(0.192);
+    -o-transform: scale(0.192);
+}
+
+.pol2{
+    transform-origin: center;
+    transform: scale(0.12);
+    -ms-transform: scale(0.12);
+    -webkit-transform: scale(0.12);
+    -moz-transform: scale(0.12);
+    -o-transform: scale(0.12);
+}
+
+.pol3{
+    transform-origin: center;
+    transform: scale(0.34);
+    -ms-transform: scale(0.34);
+    -webkit-transform: scale(0.34);
+    -moz-transform: scale(0.34);
+    -o-transform: scale(0.34);
+}
+
+.rot{
+    transform-origin: center;
+}
+
+.letter{
+    font-family: "Quicksand";
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.borderlet{
+    stroke-width: 40;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: transparent;
+}
+
+.borderlet_inner{
+    stroke-width: 30;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: transparent;
+}
+
+.whitebg {
+  user-select: none;
+  background-color: #FFFFFF;
+  position: absolute;
+  display: inline-block;
+  mix-blend-mode: difference;
+  width: 100%;
+  height:100%;
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="../scripts/noise.js"></script>
+<script src="../scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+    <div id="main" style="position: absolute; width:100%; height:100vh; z-index:1; mix-blend-mode: difference;">
+       <div id="container">
+       </div>
+    </div>
+
+
+<script type = "text/javascript">
+
+   $gen = $("#container").svg({id: "generations", x: 0, y: 0, viewBox: "0 0 400 400"}).resize();
+   $at = $gen.svg({id: "at"});
+
+   $triA = $at.svg({id: "triangleA", class: "letter"});
+   $rotA = $triA.g({class: "pol"}).g({class: "rot"});
+   $rotA.polygon({style: "fill:white", points: "200 130, 300 300, 100 300"});
+   $rotA.text({x: 168, y: 260}).css("font-size","100px");
+
+   $triB = $at.svg({id: "triangleB"});
+   $rotB = $triB.g({class: "pol"}).g({class: "rot"});
+   $rotB.polygon({style: "fill:white", points: "200 300, 300 130, 100 130"});
+
+   $at_diff = $gen.svg({y:"-74"}).g({id: "at_diff"}).css("mix-blend-mode", "difference");
+   $at_diff.polygon({points: "200 130, 300 300, 100 300", fill: "white"});
+   $at_diff.rect({x: 100, y: 205, width: 200, height: 70, rx: 0, fill: "black"}).css("mix-blend-mode", "multiply");
+   $at_diff.css("transform-origin", "center").s(1.5).end();
+   $at_diff.hide();
+   
+   $triAs = $triA.dups(28);
+   $triBs = $triB.dups(21);
+
+   $triA.remove();
+   $triB.remove();
+
+   var count = 0;
+   var row = 0;
+   var cx = 182-21;
+   var cy = 0;
+   $triAs.forEach(function(el, index){
+      $triAs[index].attr("x", cx-(21*row)+42*(count)).attr("y", cy+(36*row));
+      if(count >= row){ row++; count = 0; }else{ count++; }
+   })
+
+   count = 0;
+   row = 0;
+   $triBs.forEach(function(el, index){
+   $triBs[index].attr("x", cx-(21*row)+42*(count)).attr("y", cy+36+(36*row));
+      if(count >= row){ row++; count = 0; }else{ count++; }
+   })
+
+   $("#triangleA22").find("text").html("▲");   
+   $("#triangleA23").find("text").html("v");
+   $("#triangleA24").find("text").html("w");
+   $("#triangleA25").find("text").html("x");
+   $("#triangleA26").find("text").html("y");
+   $("#triangleA27").find("text").html("z");
+   $("#triangleA28").find("text").html("▲");
+
+   $at_diff.after( $("#triangleA23").clone().prop('id', "triangleA23_c").css("opacity",0).attr("y",290) );
+   $at_diff.after( $("#triangleA24").clone().prop('id', "triangleA24_c").css("opacity",0).attr("y",290) );
+   $at_diff.after( $("#triangleA25").clone().prop('id', "triangleA25_c").css("opacity",0).attr("y",290) );
+   $at_diff.after( $("#triangleA26").clone().prop('id', "triangleA26_c").css("opacity",0).attr("y",290) );
+   $at_diff.after( $("#triangleA27").clone().prop('id', "triangleA27_c").css("opacity",0).attr("y",290) );
+
+   $.fn.letter = function(id, x, y, d) { 
+     $let = this.svg({id: id}).hide();
+      $bg = $let.svg({id: id+"_o"}).attr("x", x).attr("y", y).g({class: "pol"});
+      $bg.path({class:"borderlet", stroke: "black", d: d});
+      $fg = $let.svg({id: id+"_i"}).attr("x", x).attr("y", y).g({class: "pol"});
+      $fg.path({class:"borderlet_inner", stroke: "white", d: d});
+      return $let;
+   }
+
+   $let_v = $gen.letter("let_v", cx-21*2, cy+36*3, "M 100 130 L 200 330 L 300 130");
+   $let_w = $gen.letter("let_w", cx-21*0, cy+36*3, "M 100 130 L 205 330 L 310 130 L 415 330 L 520 130");
+   $let_x = $gen.letter("let_x", cx-21*3, cy+36*4, "M 100 130 L 205 330 L 310 130 M 100 510 L 205 330 L 310 510");
+   $let_y = $gen.letter("let_y", cx-21*1, cy+36*4, "M 100 130 L 205 330 L 310 130 M 100 510 L 205 330");
+   $let_z = $gen.letter("let_z", cx+21*1, cy+36*4, "M 100 130 L 505 130 L 310 510 L 730 510 ");
+
+   $.fn.tri_bl = function(id, x, y, color="black") {  
+     var tri_p = "200 130, 300 300, 100 300";
+     $tri_bl = this.svg({id: id}).hide().attr("x", x).attr("y", y);
+     $tri_bl.g({class: "pol2"}).polygon({points: tri_p, fill: color});
+     return $tri_bl;
+   }
+
+   $.fn.tri_bl2 = function(id, x, y, color="black") {  
+     var tri_p = "200 130, 300 300, 100 300";
+     $tri_bl = this.svg({id: id}).hide().attr("x", x).attr("y", y);
+     $tri_bl.g({class: "pol3"}).polygon({points: tri_p, fill: color});
+     return $tri_bl;
+   }
+
+   var cy2 = -160;
+   //Top triangles
+   $gen.tri_bl("tri_bla1",  21*0, cy2+36*0, "white");
+   $gen.tri_bl("tri_bla2", -21*1, cy2+36*1, "white");
+   $gen.tri_bl("tri_bla3",  21*1, cy2+36*1, "white");
+   $gen.tri_bl("tri_bla4", -21*2, cy2+36*2, "white");
+   $gen.tri_bl("tri_bla5",  21*0, cy2+36*2, "white");
+   $gen.tri_bl("tri_bla6",  21*2, cy2+36*2, "white");
+   $gen.tri_bl2("tri_bla7", 21*1, cy2+36*2-18, "white");
+
+   //Mid triangles
+   $gen.tri_bl("tri_bl1", -21*3,  cy2+36*3);
+   $gen.tri_bl("tri_bl2", -21*1,  cy2+36*3);
+   $gen.tri_bl("tri_bl3",  21*1,  cy2+36*3);
+   $gen.tri_bl("tri_bl4",  21*3,  cy2+36*3);
+   $gen.tri_bl("tri_bl5", -21*2,  cy2+36*4);
+   $gen.tri_bl("tri_bl6", -21*4,  cy2+36*4);
+   $gen.tri_bl("tri_bl7", -21*3,  cy2+36*5);
+   $gen.tri_bl2("tri_bl8", 21*0,  cy2+36*4+18);
+   $gen.tri_bl2("tri_bl9", 21*4,  cy2+36*4+18);
+
+   //Final images
+   $im3 = $gen.svg({id: "im3", x: -140, y: 115}).g({}).hide();
+   $im3.tri_bl("im3_1", -21, 0, "white").show();
+   $im3.tri_bl("im3_2", 21, 0, "white").show();
+   $im3.tri_bl("im3_3", 0, 36, "white").show();
+   $im3.css("transform-origin", "center").r(60).end();
+
+   $im4 = $gen.svg({id: "im4", x: 0, y: 115}).g({}).hide();
+   $im4.tri_bl("im4_1", -21, 0, "white").show();
+   $im4.tri_bl2("im4_2", 21, 18, "white").show();
+   $im4.css("transform-origin", "center").r(60).end();
+
+   $im5 = $gen.svg({id: "im5", x: 140, y: 115}).g({}).hide();
+   $im5.tri_bl("im5_1", 0, -36, "white").show();
+   $im5.tri_bl2("im5_2", 21, 18, "white").show();
+   $im5.css("transform-origin", "center").r(60).end();
+
+   $im1 = $gen.svg({id: "im1", x: 0, y: -60}).g({}).hide();
+   $im1.svg({}).attr("x", 0-(21*0)+42).attr("y", 60+(36*1)).g({class: "pol"}).polygon({style: "fill:white", points: "200 130, 300 300, 100 300"});
+   $im1.svg({}).attr("x", 0-(21*0)+42).attr("y", 60+36+(36*1)).g({class: "pol"}).polygon({style: "fill:white", points: "200 300, 300 130, 100 130"});
+   $im1.svg({}).attr("x", 0-(21*1)+42).attr("y", 60+36+(36*2)).g({class: "pol"}).polygon({style: "fill:white", points: "200 300, 300 130, 100 130"});
+   $im1.svg({}).attr("x", 0+(21*1)+42).attr("y", 60+36+(36*2)).g({class: "pol"}).polygon({style: "fill:white", points: "200 300, 300 130, 100 130"});
+
+   $im2 = $gen.svg({id: "im1", x: 240, y: -60}).g({}).hide();
+   $im2.svg({}).attr("x", 0-(21*0)+42).attr("y", 60+(36*1)).g({class: "pol"}).polygon({style: "fill:white", points: "200 130, 300 300, 100 300"});
+   $im2.svg({}).attr("x", 0-(21*1)+42).attr("y", 60+(36*2)).g({class: "pol"}).polygon({style: "fill:white", points: "200 130, 300 300, 100 300"});
+   $im2.svg({}).attr("x", 0+(21*1)+42).attr("y", 60+(36*2)).g({class: "pol"}).polygon({style: "fill:white", points: "200 130, 300 300, 100 300"});
+   $im2.svg({}).attr("x", 0-(21*0)+42).attr("y", 60+36+(36*1)).g({class: "pol"}).polygon({style: "fill:white", points: "200 300, 300 130, 100 130"});
+   $im2.svg({}).attr("x", 0-(21*1)+42).attr("y", 60+36+(36*2)).g({class: "pol"}).polygon({style: "fill:white", points: "200 300, 300 130, 100 130"});
+   $im2.svg({}).attr("x", 0+(21*1)+42).attr("y", 60+36+(36*2)).g({class: "pol"}).polygon({style: "fill:white", points: "200 300, 300 130, 100 130"});
+
+   $gen.click(function(){  
+    $at_diff.fadeIn(2000);  
+    $("#triangleA23_c").click(function(){ $let_v.fadeIn(1000);  });
+    $("#triangleA24_c").click(function(){ $let_w.fadeIn(1000);  });
+    $("#triangleA25_c").click(function(){ $let_x.fadeIn(1000);  });
+    $("#triangleA26_c").click(function(){ $let_y.fadeIn(1000);  });
+    $("#triangleA27_c").click(function(){ $let_z.fadeIn(1000);  }); 
+   });
+
+   function hideAll(){
+      $("#tri_bla1").hide();
+      $("#tri_bla2").hide();
+      $("#tri_bla3").hide();
+      $("#tri_bla4").hide();
+      $("#tri_bla5").hide();
+      $("#tri_bla6").hide();
+      $("#tri_bla7").hide();
+   }
+
+   $let_v.click(function(){ 
+    $("#tri_bl1").fadeIn(1000); 
+    $("#tri_bl2").fadeIn(1000);  
+    hideAll();
+    $("#tri_bla2").fadeIn(2000);
+    $("#tri_bla3").fadeIn(2000);
+    $("#tri_bla4").fadeIn(2000);
+    $("#tri_bla5").fadeIn(2000);
+    $("#tri_bla6").fadeIn(2000);
+    $im1.delay(1000).fadeIn(100);
+   });
+
+   $let_w.click(function(){ 
+    $("#tri_bl2").fadeIn(1000);  
+    $("#tri_bl3").fadeIn(1000);  
+    $("#tri_bl4").fadeIn(1000);  
+    hideAll();
+    $("#tri_bla4").fadeIn(2000);
+    $("#tri_bla5").fadeIn(2000);
+    $("#tri_bla6").fadeIn(2000);
+    $im2.delay(1000).fadeIn(100);
+   });
+
+   $let_x.click(function(){ 
+    $("#tri_bl5").fadeIn(1000);  
+    $("#tri_bl6").fadeIn(1000);  
+    $("#tri_bl7").fadeIn(1000);  
+    hideAll();
+    $("#tri_bla2").fadeIn(2000);
+    $("#tri_bla3").fadeIn(2000);
+    $("#tri_bla5").fadeIn(2000);
+
+    $im3.delay(1000).fadeIn(100);
+   });
+
+   $let_y.click(function(){ 
+    $("#tri_bl5").fadeIn(1000);  
+    $("#tri_bl8").fadeIn(1000); 
+    hideAll();
+    $("#tri_bla7").fadeIn(2000);
+    $("#tri_bla2").fadeIn(2000);
+
+    $im4.delay(1000).fadeIn(100);
+   });
+
+   $let_z.click(function(){ 
+    $("#tri_bl4").fadeIn(1000);  
+    $("#tri_bl9").fadeIn(1000); 
+    hideAll();
+    $("#tri_bla7").fadeIn(2000);
+    $("#tri_bla1").fadeIn(2000);
+
+    $im5.delay(1000).fadeIn(100);
+   }); 
+
+let t = 0;
+let r = 0;
+let ph = [];
+
+for(var i = 0; i < $at.children().length; i++){
+   ph[i] = Math.random()*100;
+}
+
+function animate() {
+   t += 0.1;
+   if(t >= 1000000){ t = 0; }
+   for(var i = 0; i < $at.children().length; i++){
+     r = svib(0.5, t+ph[i], 2.2, 0);
+     $(".rot:eq("+i+")").r(r).end();
+   }
+   requestAnimationFrame(animate);
+}
+
+animate();
+
+
+</script>
+
+
+</body>
+</html>
+

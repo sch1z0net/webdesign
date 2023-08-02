@@ -1,0 +1,363 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sch1z0.net</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="../images/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+
+#container {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#image {
+    transform: scale(1.0);
+}
+
+.letter{
+    font-family: "Questrial";
+    user-select: none;
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.box{
+    font-family: "Questrial";
+    user-select: none;   
+}
+
+.whitebg {
+  user-select: none;
+  background-color: #FFFFFF;
+  position: absolute;
+  display: inline-block;
+  mix-blend-mode: difference;
+  width: 100%;
+  height:100%;
+}
+
+.toleft {
+    -webkit-transform:  translateX(-12%);
+    -moz-transform:  translateX(-12%);
+    -ms-transform:  translateX(-12%);
+    -o-transform:  translateX(-12%);
+    transform:  translateX(-12%);
+    transition: transform 2s;
+}
+
+.toright {
+    -webkit-transform:  translateX(12%);
+    -moz-transform:  translateX(12%);
+    -ms-transform:  translateX(12%);
+    -o-transform:  translateX(12%);
+    transform:  translateX(12%);
+    transition: transform 2s;
+}
+
+.u_godown{
+    -webkit-transform:  translateY(140px);
+    -moz-transform:  translateY(140px);
+    -ms-transform:  translateY(140px);
+    -o-transform:  translateY(140px);
+    transform:  translateY(140px);
+    transition: transform 4s;  
+}
+
+.pq1_godown{ transform: translateY(18px); transition: transform 4s;  }
+.pq2_godown{ transform: translateY(36px); transition: transform 4s;  }
+.pq3_godown{ transform: translateY(54px); transition: transform 4s;  }
+.pq4_godown{ transform: translateY(72px); transition: transform 4s;  }
+.pq5_godown{ transform: translateY(90px); transition: transform 4s;  }
+.pq6_godown{ transform: translateY(108px); transition: transform 4s;  }
+.pq7_godown{ transform: translateY(126px); transition: transform 4s;  }
+.pq8_godown{ transform: translateY(144px); transition: transform 4s;  }
+
+
+#linelet_fed{
+  transform: translate(100%,0px) scaleX(-1);
+  -webkit-transform: translate(100%,0px) scaleX(-1);
+  -moz-transform: translate(100%,0px) scaleX(-1);
+  -ms-transform: translate(100%,0px) scaleX(-1);
+  -o-transform: translate(100%,0px) scaleX(-1);
+}
+
+#dna{
+  position: absolute; 
+  border: solid 2px white; 
+  right: 10px; 
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: block;
+}
+
+
+</style>
+
+<style>
+
+.hidden{
+  visibility: hidden;
+}
+
+#slidecontainer {
+  width: 15%; /* Width of the outside container */
+  position: absolute;
+  z-index: 10;
+  right: 0px;
+  display: inline-block;
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #ffffff; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.9; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #1a1a1a; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #1a1a1a; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="../scripts/noise.js"></script>
+<script type="module" src="../scripts/dna.js"></script>
+<script src="../scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+    <div id="main" style="position: absolute; width:100%; height:100vh; z-index:1; mix-blend-mode: difference;">
+
+        <div id="slidecontainer" class="hidden">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range1">
+           <input type="range" min="0" max="100" value="50" class="slider" id="range2">
+        </div>
+
+       <div id="container">
+       </div>
+
+       <canvas id="dna" class="hidden" width="100" height="400"></canvas>
+    </div>
+
+<script type = "text/javascript">
+  $(document).ready(function(){
+
+      $image = $("#container").svg({id: "image", x: 0, y: 0, viewBox: "0 0 400 400"}).resize();
+
+      $half1 = $image.g({id: "half1"});
+      $half1.g({id: "line1"}).polygon({points: "199 0, 199 400, 201 400, 201 0", fill:"white"});
+      $half1.g({id: "linelet_a"}).text({class: "letter", x:"180", y:"80", fill:"white"}).css("font-size","40px").html("a");     
+      $half1.g({id: "linelet_b"}).hide().text({class: "letter", x:"196", y:"115", fill:"white"}).css("font-size","40px").html("b"); 
+      $half1.g({id: "linelet_c"}).hide().text({class: "letter", x:"179", y:"115", fill:"white"}).css("font-size","40px").html("c"); 
+      $def = $half1.g({id: "linelet_def"}).hide();
+      $def.g({id: "linelet_d"}).text({class: "letter", x:"159", y:"185", fill:"white"}).css("font-size","40px").html("d");
+      $def.g({id: "linelet_e"}).text({class: "letter", x:"179", y:"185", fill:"white"}).css("font-size","40px").html("e");
+      $def.g({id: "linelet_f"}).text({class: "letter", x:"176", y:"154", fill:"white"}).css("font-size","40px").html("_");
+      $fed = $half1.g({id: "linelet_fed"}).hide();
+      $fed.g({id: "linelet_d2"}).text({class: "letter", x:"159", y:"185", fill:"white"}).css("font-size","40px").html("d");
+      $fed.g({id: "linelet_e2"}).text({class: "letter", x:"179", y:"185", fill:"white"}).css("font-size","40px").html("e");
+      $fed.g({id: "linelet_f2"}).text({class: "letter", x:"176", y:"154", fill:"white"}).css("font-size","40px").html("_");
+      $half1.g({id: "linelet_g"}).hide().text({class: "letter", x:"198", y:"250", fill:"white"}).css("font-size","40px").html("g"); 
+      $half1.g({id: "linelet_h"}).hide().text({class: "letter", x:"198", y:"282", fill:"white"}).css("font-size","40px").html("h"); 
+      $linelet_i = $half1.g({id: "linelet_i"}).hide();
+      $linelet_i.text({class: "letter", x:"198", y:"312", fill:"white"}).css("font-size","40px").html("i");
+      $linelet_i.text({class: "letter", x:"197.5", y:"324", fill:"white"}).css("font-size","40px").html("I");
+      $linelet_j = $half1.g({id: "linelet_j"}).hide();
+      $linelet_j.text({class: "letter", x:"212.5", y:"312", fill:"white"}).css("font-size","40px").html("i");
+      $linelet_j.text({class: "letter", x:"200", y:"330", fill:"white"}).css("font-size","40px").html("J");
+
+      $half2 = $image.g({id: "half2"});
+      $half2.g({id: "line2"}).polygon({points: "199 0, 199 400, 201 400, 201 0", fill:"white"});
+      $linelet_k = $half2.g({id: "linelet_k"}).hide();
+      $linelet_i2 = $linelet_k.g({id: "linelet_i2"});
+      $linelet_i2.text({class: "letter", x:"197", y:"96", fill:"white"}).css("font-size","40px").html("i");
+      $linelet_i2.text({class: "letter", x:"196.5", y:"108", fill:"white"}).css("font-size","40px").html("I");
+      $linelet_j2 = $linelet_k.g({id: "linelet_j2"});
+      $linelet_j2.text({class: "letter", x:"211.5", y:"96", fill:"white"}).css("font-size","40px").html("i");
+      $linelet_j2.text({class: "letter", x:"199", y:"112", fill:"white"}).css("font-size","40px").html("J");
+      $linelet_k.g({id: "linelet_i3"}).text({class: "letter", x:"197", y:"136", fill:"white"}).css("font-size","40px").html("I");
+      $linelet_k.g({id: "linelet_j3", style: "transform: translate(0px,100%) scaleY(-1)"}).text({class: "letter", x:"199", y:"291", fill:"white"}).css("font-size","40px").html("J");
+      $half2.g({id: "linelet_l", style: "transform: translate(100%, 0px) scaleX(-1)"}).hide().text({class: "letter", x:"181.5", y:"165", fill:"white"}).css("font-size","40px").html("J");
+      $half2.g({id: "linelet_m"}).hide().text({class: "letter", x:"212.5", y:"165", fill:"white"}).css("font-size","40px").html("m");
+      $half2.g({id: "linelet_n"}).hide().text({class: "letter", x:"207", y:"166", fill:"white"}).css("font-size","82px").html("n");
+      $half2.g({id: "linelet_u"}).hide().text({class: "letter", x:"207", y:"206", fill:"white"}).css("font-size","82px").html("u");
+      $linelet_pq = $half2.g({id: "linelet_pq"}).hide();
+      $linelet_pq.g({id: "linelet_p"}).text({class: "letter", x:"217", y:"160", fill:"white"}).css("font-size","24px").html("p");
+      $linelet_pq.g({id: "linelet_q"}).text({class: "letter", x:"229", y:"160", fill:"white"}).css("font-size","24px").html("q");
+      $half2.g({id: "linelet_o"}).hide().text({class: "letter", x:"222", y:"148", fill:"white"}).css("font-size","30px").html("o");
+      $half2.g({id: "linelet_r"}).hide().text({class: "letter", x:"198", y:"328", fill:"white"}).css("font-size","40px").html("r");
+      $half2.g({id: "linelet_s"}).hide().text({class: "letter", x:"190", y:"348", fill:"white"}).css("font-size","40px").html("s");
+
+      $boxes1 = $image.g({id: "boxes1", class: "box"});
+      $box_abc = $boxes1.g({id: "box_abc"}).hide();
+      $box_abc.rect({x: 10, y: 56, width: 60, height: 60, rx: "2", fill: "white"});
+      $box_abc.circle({cx: 40, cy: 72, r: 10, fill: "black"});
+      $box_abc.text({x: 22, y: 90, fill:"black"}).css("font-size","7px").html("Cytokinesis");
+      $box_abc.circle({id: "cell1a", cx: 32, cy: 102, r: 10, fill: "black"});
+      $box_abc.circle({id: "cell1b", cx: 48, cy: 102, r: 10, fill: "black"});
+
+      $box_def1 = $boxes1.g({id: "box_def1"}).hide();
+      $box_def1.rect({x: 10, y: 134, width: 60, height: 40, rx: "2", fill: "white"});
+      $box_def1.circle({cx: 32, cy: 152, r: 10, fill: "black"});
+      $box_def1.circle({cx: 48, cy: 152, r: 10, fill: "black"});
+      $box_def1.text({x: 22, y: 170, fill:"black"}).css("font-size","7px").html("Fertilization");
+      $box_def1.circle({id: "cell2a", cx: 15, cy: 152, r: 4, fill: "black"});
+      $box_def1.circle({id: "cell2b", cx: 65, cy: 152, r: 4, fill: "black"});
+
+      $box_def2 = $boxes1.g({id: "box_def2"}).hide();
+      $box_def2.rect({x: 10, y: 174, width: 60, height: 60, rx: "2", fill: "white"});
+      $box_def2.rect({x: 12, y: 176, width: 56, height: 56, rx: "2", fill: "black"});
+
+      $box_def2.text({x: 22, y: 170, fill:"black"}).css("font-size","7px").html("Fertilization");
+      $box_def2.g({id: "box_def2_d"}).text({x: 12, y: 219.6, fill:"white"}).css("font-size","40px").html("d");
+      $box_def2.g({id: "box_def2_e"}).text({style: "transform: translate(60px,222px) rotate(-90deg);", fill:"white"}).css("font-size","40px").html("e");
+      $box_def2_f = $box_def2.g({id: "box_def2_f"}) 
+      $box_def2_f.text({x: 32, y: 189, fill:"white"}).css("font-size","40px").html("_");
+      $box_def2_f.text({x: 22, y: 206, fill:"white"}).css("font-size","40px").html("_");
+
+      $box_ghij = $boxes1.g({id: "box_ghij"}).hide();
+      $box_ghij.rect({x: 10, y: 264, width: 60, height: 70, rx: "2", fill: "white"});
+      $box_ghij.circle({id: "cell3a", cx: 40, cy: 294, r: 25, fill: "black"});
+      $box_ghij.circle({id: "cell3b", cx: 25, cy: 294, r: 3, fill: "white"});
+      $box_ghij.circle({id: "cell3c", cx: 55, cy: 294, r: 3, fill: "white"});
+      $box_ghij.text({x: 24, y: 328, fill:"black"}).css("font-size","7px").html("Prophase");
+
+
+      $("#linelet_a").click(function(){  $("#linelet_b").show(500);  });
+      $("#linelet_b").click(function(){  $("#linelet_c").show(500); $("#box_abc").show(1000); });
+      $("#linelet_c").click(function(){  $("#linelet_def").show(500);  });
+      $("#linelet_def").click(function(){  $("#linelet_fed").show(500); $("#box_def1").show(1000); $("#box_def2").show(2000);  });
+      $("#linelet_fed").click(function(){  $("#linelet_g").show(500);  });
+      $("#linelet_g").click(function(){  $("#linelet_h").show(500);  });
+      $("#linelet_h").click(function(){  $("#linelet_i").show(500);  });
+      $("#linelet_i").click(function(){  $("#linelet_j").show(500); $("#box_ghij").show(1000); });
+      $("#linelet_j").click(function(){  $("#half1").addClass("toleft"); $("#half2").show(); $("#half2").addClass("toright"); $("#linelet_k").show(1000); });
+      $("#linelet_k").click(function(){  $("#linelet_l").show(500); });
+      $("#linelet_l").click(function(){  $("#linelet_m").show(500); });
+      $("#linelet_m").click(function(){  $("#linelet_n").show(500); });
+
+      $("#linelet_pq").hide(); 
+      $pqs = $("#linelet_pq").dups(8);
+      $("#linelet_n").click(function(){ $("#linelet_o").show(500); $("#linelet_u").show(1000); $pqs.forEach(function(item){ item.show(1000) }); });
+      $("#linelet_o").click(function(){
+        $pqs.forEach(function(item, index){ item.addClass("pq"+(index+1)+"_godown");  });
+        $("#linelet_u").addClass("u_godown");
+        $("#linelet_u").click(function(){ $("#linelet_r").show(500); }); 
+        $("#dna").removeClass("hidden");
+        $("#slidecontainer").removeClass("hidden");
+      });
+
+      $("#linelet_r").click(function(){ $("#linelet_s").show(500); });
+      $("#linelet_s").click(function(){ 
+
+      });
+
+      $cell1a = $("#cell1a");
+      $cell1b = $("#cell1b");
+      $cell2a = $("#cell2a");
+      $cell2b = $("#cell2b");
+      $cell3a = $("#cell3a");
+      $cell3b = $("#cell3b");
+      $cell3c = $("#cell3c");
+      var whiggle = 0;
+      var swhiggle = 0;
+      var repx = 0;
+
+      var t = 0;
+      function animate() {
+        t += 0.1;
+        if(t >= 1000000){ t = 0; }
+        if(t <= -1000000){ t = 0; }
+        repx += 0.1;
+        if(repx >= 12){ repx = 0; }
+
+        whiggle  = uvib(0.5, t,    2, 0);
+        swhiggle = uvib(0.5, t, 0.01, 1);
+
+        $cell1a.tX(whiggle).end();
+        $cell1b.tX(-whiggle).end();
+        $cell2a.tX(repx).end();
+        $cell2b.tX(-repx).end();
+        $cell3a.s(swhiggle).end();
+        $cell3b.tY(whiggle).end();
+        $cell3c.tY(-whiggle).end();
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+
+  });
+
+</script>
+
+
+</body>
+</html>
+

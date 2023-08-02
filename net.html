@@ -1,0 +1,396 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sch1z0.net - art</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="../images/favicon/favicon.ico">
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+body {
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+#fps{  
+  position: absolute; 
+  z-index:1; 
+  top: 2%;
+  right: 2%;
+  color: white;
+  font-family: Questrial;
+}
+
+#main {
+  opacity: 0;
+  
+  position: absolute; 
+  z-index:1; 
+  mix-blend-mode: difference;
+  
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  width: 98%;
+  height: 98%;
+}
+
+#main > * {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+#canvas_div {
+  position: relative;
+}
+
+@media (max-width:600px)  { 
+  #canvas_div {
+    width: 100%;
+    height: 60%;
+  }
+}
+
+@media (min-width:600px)  { 
+   #canvas_div {
+    width: 50%;
+    height: 100%;
+  }  
+}
+
+.canv{
+   width: 100%;
+   height: 100%;
+    
+    padding: 0;
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    user-select: none;
+
+  -webkit-box-sizing: border-box; 
+   -moz-box-sizing: border-box;
+   box-sizing: border-box; 
+}
+
+#menu{
+    margin: 5px;
+    position: absolute;
+}
+
+.menu_element{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+    display: inline-block;
+
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 25px;
+    color: rgba(200,200,200,0.9);
+    font-family: Questrial;
+    font-size: 20px;
+    user-select: none;
+    cursor: pointer;
+    background-color: rgba(20,20,20,0.5);
+    border-radius: 5%;
+}
+
+#net {
+   border-radius: 4px;
+   border: solid 2px white;
+   background-color: rgb(220, 220, 220);
+}
+
+.img_cont {
+      position: absolute;
+      user-select: none;
+      cursor: pointer;
+}
+
+.at_img {
+      position: absolute;
+      max-height: 30px;
+      max-width: auto;
+      object-fit: cover;
+      user-select: none;
+      pointer-events: none;
+      border-radius: 50%;
+      border-style: solid;
+      border-width: 2px;
+      border-color: rgba(20,20,20,0.5);
+}
+
+.active > .at_img{
+      border-color: rgba(200,20,20,0.9);
+}
+
+
+#information_div {
+    width: calc(50% - 20px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    -webkit-box-sizing: border-box; 
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; 
+
+}
+
+@media (max-width:600px)  { 
+  #information_div {
+    flex-direction: row;
+    max-height: calc(40% - 10px);
+  }
+}
+
+@media (max-height:400px)  { 
+  #information_div {
+    flex-direction: row;
+  }
+}
+
+.main_img_cont {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    text-align: center;
+    cursor: pointer;
+}
+
+@media (min-width:600px)  { 
+  .main_img_cont {
+    max-height: 70%;
+  }
+}
+
+
+.main_img {
+   user-select: none;
+   pointer-events: none;
+
+   border-radius: 4px;
+   border-style: solid;
+   border-width: 2px;
+   border-color: rgba(220,220,220,0.5);
+   width: auto;
+   height: auto;
+   max-width: 100%;
+   max-height: 100%;
+   object-fit: contain;
+
+    -webkit-box-sizing: border-box; 
+   -moz-box-sizing: border-box;
+   box-sizing: border-box; 
+}
+
+.main_info {
+   user-select: none;
+   pointer-events: none;
+
+   border-radius: 4px;
+   border-style: solid;
+   border-width: 2px;
+   border-color: rgba(220,220,220,0.5);
+   width: 100%;
+   height: 100%;
+
+   -webkit-box-sizing: border-box; 
+   -moz-box-sizing: border-box;
+   box-sizing: border-box; 
+
+   background-color: rgba(220,220,220,0.1);
+   font-family: Questrial;
+   color: rgba(220,220,220,1);
+   font-size: 75%;
+}
+
+.main_info p{
+     padding: 2px;
+   -webkit-box-sizing: border-box; 
+   -moz-box-sizing: border-box;
+   box-sizing: border-box; 
+   margin: 0;   
+   border-bottom: solid 1px grey;  
+}
+
+.main_info span{
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(220,220,220,0.5);
+    background-color: rgba(220,220,220,0.5);
+    margin: 2px;
+    display: inline-block;
+}
+
+.info_title{
+  width: 100%;
+  background-color: rgba(20,20,20,0.5);
+  border-bottom: solid 2px grey;
+}
+
+.info_title span{
+   border: none;
+   background-color: rgba(0,0,0,0.0) !important;
+   font-size: 140% !important;
+}
+
+@media (max-width:600px)  { 
+  #bgnoise{
+    display: none;
+  }
+  body {
+    background-color: rgb(20,20,20);
+  }
+}
+
+</style>
+
+
+<style>
+#load {
+  position: absolute; 
+  z-index:1; 
+  mix-blend-mode: difference;
+  
+  width: 100%;
+  height: 100%;
+}
+
+#load_div{
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  position: absolute;
+
+  box-sizing: border-box;
+
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+
+  height: 20%;
+  width: 20%;
+
+  display: flex;
+  justify-content: center;
+}
+
+#spinner{
+  position: absolute;
+  border: 20px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #a3a3a3;
+  border-radius: 50%;
+  width: 160px;
+  height: 160px;
+  animation: spin 2s linear infinite;
+}
+
+#perc{
+  position: absolute;
+  width: 160px;
+  height: 160px;
+
+  display: flex;
+  margin: auto;
+  align-items:center;
+  justify-content:center;
+
+  text-align: center;
+  
+  color: white;
+  font-size: 100%;
+  font-family: Questrial;
+}
+
+#continue{
+  position: absolute;
+  top:40%;
+  width: 160px;
+  height: 160px;
+
+  display: flex;
+  margin: auto;
+  align-items:center;
+  justify-content:center;
+
+  text-align: center;
+  
+  color: white;
+  font-size: 100%;
+  font-family: Questrial;
+  text-decoration: underline;
+
+  cursor: pointer;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="module" src="/scripts/noise.js"></script>
+<script type="module" src="/scripts/network.js"></script>
+<script src="/scripts/tools.js"></script>
+</head>
+
+<body>
+
+    <canvas id="bgnoise" style="position:fixed;"></canvas>
+    <div id="main">
+      <div id="canvas_div">
+       <canvas class="canv" id="net"></canvas>
+       <div class="canv" id="img_div"><div id="fps"></div></div>
+       <div id="menu">
+         <div id="button_prev" class="menu_element">previous</div>
+         <div id="button_next" class="menu_element">next</div>
+       </div>
+     </div>
+     <div id="information_div"></div>
+    </div>
+    <div id="load">
+        <div id="load_div">
+          <div id="perc"></div>
+          <div id="spinner"></div>
+          <div id="continue" style="display: none">I can't wait</div>
+        </div>
+    </div>
+
+<script type = "text/javascript">
+
+</script>
+
+
+</body>
+</html>
+
